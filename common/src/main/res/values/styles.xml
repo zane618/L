@@ -1,0 +1,8 @@
+<resources>
+    <!--dialog 显示界面不变暗-->
+    <style name="dialog" parent="Theme.AppCompat.Dialog" >
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="colorAccent">#FFFFFF</item>
+    </style>
+</resources>

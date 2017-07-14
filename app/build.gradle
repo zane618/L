@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        release {
+            keyAlias 'zane'
+            keyPassword 'zane618'
+            storeFile file('D:/01Apps/L/app/signfile.jks')
+            storePassword 'zane618'
+        }
+    }
+    compileSdkVersion project.COMPILE_SDK_VERSION as int
+    buildToolsVersion project.BUILD_TOOLS_VERSION
+    defaultConfig {
+        applicationId "com.zane.l"
+        minSdkVersion project.MIN_SDK_VERSION
+        targetSdkVersion project.TARGET_SDK_VERSION
+        versionCode project.VERSION_CODE as int
+        versionName project.VERSION_NAME
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            buildConfigField "boolean", "LOG", "false"
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            shrinkResources false//移除无用的resource文件
+            zipAlignEnabled true //Zipalign优化
+        }
+        debug {
+            buildConfigField "boolean", "LOG", "true"
+            signingConfig signingConfigs.release
+        }
+    }
+    //多渠道
+    productFlavors {
+        wandoujia {}
+//        baidu {}
+//        c360 {}
+//        uc {}
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+    }
+    // release版本 apk重命名
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('release.apk')) {
+                def fileName = outputFile.name.replace(".apk", "-${defaultConfig.versionName}.apk")
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE.txt'
+//        exclude 'META-INF/maven/com.squareup.okio/okio/pom.xml'
+//        exculde 'META-INF/maven/com.squareup.okio/okio/pom.properties'
+    }
+    sourceSets{
+        main{
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile project(':common')
+    compile project(':libbmob')
+    compile "com.android.support:appcompat-v7:${SUPPORT_VERSION}"
+    compile project(path: ':magicindicator')
+    compile 'com.facebook.rebound:rebound:0.3.8'
+    //弹性动画
+    compile project(':libpickerview')
+    compile project(':libads')
+}

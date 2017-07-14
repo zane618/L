@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "D:\\01Apps\\L\\magicindicator\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_custom_big.xml",
+        "source": "C:\\Users\\zane\\.android\\build-cache\\1adcae9612b3754623afadc0f71ce5be2e6f3692\\output\\res\\layout-v21\\notification_template_custom_big.xml"
+    },
+    {
+        "merged": "D:\\01Apps\\L\\magicindicator\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_icon_group.xml",
+        "source": "C:\\Users\\zane\\.android\\build-cache\\1adcae9612b3754623afadc0f71ce5be2e6f3692\\output\\res\\layout-v21\\notification_template_icon_group.xml"
+    },
+    {
+        "merged": "D:\\01Apps\\L\\magicindicator\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action_tombstone.xml",
+        "source": "C:\\Users\\zane\\.android\\build-cache\\1adcae9612b3754623afadc0f71ce5be2e6f3692\\output\\res\\layout-v21\\notification_action_tombstone.xml"
+    },
+    {
+        "merged": "D:\\01Apps\\L\\magicindicator\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action.xml",
+        "source": "C:\\Users\\zane\\.android\\build-cache\\1adcae9612b3754623afadc0f71ce5be2e6f3692\\output\\res\\layout-v21\\notification_action.xml"
+    }
+]
