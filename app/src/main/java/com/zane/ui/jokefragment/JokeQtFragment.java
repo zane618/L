@@ -20,6 +20,7 @@ import com.zane.bean.JokeDzRandBean;
 import com.zane.bean.JokeQtBean;
 import com.zane.bean.JokeQtRandBean;
 import com.zane.l.R;
+import com.zane.ui.ImageFragmentActivity;
 import com.zane.ui.base.BaseFragment;
 import com.zane.util.CatchLinearLayoutManager;
 import com.zane.utility.L;
@@ -67,7 +68,22 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                String[] imgUrls = null;
+                String[] titles = null;
+                if (position < datas.size() - 2) {
+                    imgUrls = new String[]{datas.get(position).url, datas.get(position + 1).url, datas.get(position + 2).url};
+                    titles = new String[]{datas.get(position).content, datas.get(position + 1).content, datas.get(position + 2).content};
+                } else if (position < datas.size() - 1) {
+                    imgUrls = new String[]{datas.get(position).url, datas.get(position + 1).url};
+                    titles = new String[]{datas.get(position).content, datas.get(position + 1).content};
+                } else {
+                    imgUrls = new String[]{datas.get(position).url};
+                    titles = new String[]{datas.get(position).content};
+                }
+                Bundle bundle = new Bundle();
+                bundle.putStringArray("titles", titles);
+                bundle.putStringArray("imgUrls", imgUrls);
+                startActivity(new Intent(mContext, ImageFragmentActivity.class).putExtras(bundle));
             }
         });
         doBrowseType(true);
@@ -92,7 +108,7 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
                                     datas.clear();
 //                                    adapter.notifyItemRangeRemoved(0, size);
                                     adapter.notifyDataSetChanged();
-                                    datas.add(new JokeQtBean.MData("a", "a", 1));
+                                    datas.add(new JokeQtBean.MData("a", "a", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1499671312058&di=ed0cd4038eda33c4163ca5c5cc52d561&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201411%2F07%2F20141107192221_kCHCG.jpeg", 1));
                                 }
 //                                for (JokeDzBean.MData data : list) {
 //                                    data.layoutType = 0;
@@ -147,7 +163,7 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
                                     datas.clear();
 //                                    adapter.notifyItemRangeRemoved(0, size);
                                     adapter.notifyDataSetChanged();
-                                    datas.add(new JokeQtBean.MData("a", "a", 1));
+                                    datas.add(new JokeQtBean.MData("a", "a", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1499671312058&di=ed0cd4038eda33c4163ca5c5cc52d561&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201411%2F07%2F20141107192221_kCHCG.jpeg", 1));
                                 }
 //                                for (JokeDzBean.MData data : list) {
 //                                    data.layoutType = 0;
@@ -203,7 +219,7 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
                                     datas.clear();
 //                                    adapter.notifyItemRangeRemoved(0, size);
                                     adapter.notifyDataSetChanged();
-                                    datas.add(new JokeQtBean.MData("a", "a", 1));
+                                    datas.add(new JokeQtBean.MData("a", "a", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1499671312058&di=ed0cd4038eda33c4163ca5c5cc52d561&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201411%2F07%2F20141107192221_kCHCG.jpeg", 1));
                                 }
 //                                for (JokeDzBean.MData data : list) {
 //                                    data.layoutType = 0;

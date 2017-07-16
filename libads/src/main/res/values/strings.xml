@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">LibADs</string>
+
+    <!--start 讯飞广告-->
+    <string name="splash_ifly_ad_id">ECE1BE0220D5CFF485ACBBA24681E8C4</string>
+    <string name="exit_ifly_ad_id">4FFC24F51E6538CCC4E24ABA2A0FD3C3</string>
+    <string name="exit_bottom_ad_id">27AAD3951D36B897F1FABB44C421DA7D</string>
+    <string name="exit_dzhead_ad_id">5636C70A22465082F98C023A18ED106E</string>
+    <string name="exit_qthead_ad_id">4BEBBA7CBE26C6FCF4F1FD16D94F8A47</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.zane.ui.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected Context mContext = null;
 //    protected Gson mGson = null;
     protected View noDataView, errorView;
+    protected Intent mGetIntent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentV();
         mContext = this;
+        mGetIntent = getIntent();
 //        mGson = new Gson();
         getIntentData();
         initView();

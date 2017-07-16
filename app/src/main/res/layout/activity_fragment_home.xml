@@ -12,10 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#d8d8d8"/>
+    <LinearLayout
+        android:id="@+id/ad_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="vertical"
+        android:visibility="gone"></LinearLayout>
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:background="#f6f6f6"
         android:orientation="horizontal">
         <RadioButton

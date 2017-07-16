@@ -1,1 +1,1 @@
-include ':app', ':common', ':libbmob', ':magicindicator', ':libpickerview', ':libads'
+include ':app', ':common', ':libbmob', ':magicindicator', ':libpickerview', ':libads', ':photoview'

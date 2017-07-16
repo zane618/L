@@ -5,5 +5,12 @@ package com.zane.ads;
  */
 
 public interface OnAdsListener {
-    void onAdsLoaded(boolean success, Object o, int platform);
+    /**
+     *
+     * @param success
+     * @param AdDataO  转化后
+     * @param adO   转化前
+     * @param platform
+     */
+    void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform);
 }

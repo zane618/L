@@ -14,16 +14,17 @@ public class JokeQtBean extends BaseBean {
         public List<MData> data;
     }
     public static class MData  implements Serializable{
-        public String content;
-        public String updatetime;
-        public String unixtime;
-        public String url;
+        public String content = "";
+        public String updatetime = "";
+        public String unixtime = "";
+        public String url = "";
         public int layoutType = 0;
 
-        public MData(String content, String updatetime, int layoutType) {
+        public MData(String content, String updatetime,String url, int layoutType) {
             this.content = content;
             this.updatetime = updatetime;
             this.layoutType = layoutType;
+            this.url = url;
         }
     }
 }

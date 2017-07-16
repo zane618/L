@@ -18,11 +18,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.zane.ui.HomeFragmentActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
         <!--闪屏-->
         <activity android:name="com.zane.ui.SplashActivity"
@@ -40,6 +35,16 @@
         android:theme="@style/translucent"
         android:configChanges="orientation|screenSize"
         android:windowSoftInputMode="adjustPan"/>
+        <!--图片缩放activity-->
+        <activity android:name="com.zane.ui.ImageFragmentActivity"
+            android:theme="@style/ImageFragmentTheme"
+            android:configChanges="orientation|screenSize"/>
+        <!--浏览器activity-->
+        <activity android:name="com.zane.ui.WebviewActivity"
+            android:theme="@style/ImageFragmentTheme"
+            android:configChanges="orientation|screenSize">
+
+        </activity>
         <!--bmob更新-->
         <activity
             android:name="cn.bmob.v3.update.UpdateDialogActivity"

@@ -60,8 +60,9 @@ android {
 //        exculde 'META-INF/maven/com.squareup.okio/okio/pom.properties'
     }
     sourceSets{
-        main{
+        main {
             jniLibs.srcDirs = ['libs']
+            assets.srcDirs = ['assets']
         }
     }
 }
@@ -77,4 +78,5 @@ dependencies {
     //弹性动画
     compile project(':libpickerview')
     compile project(':libads')
+    compile project(':photoview')
 }

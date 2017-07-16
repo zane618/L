@@ -5,10 +5,10 @@ package com.zane.ads;
  */
 
 public class ADData {
+    //讯飞
     public String mAdClickType;
     public String mTitle;
     public String mSubTitle;
     public String mImageUrl;
     public String mIcon;
-
 }

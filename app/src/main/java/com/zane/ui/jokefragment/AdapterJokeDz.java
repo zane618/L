@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.util.MultiTypeDelegate;
-import com.zane.glide.GlideApp;
 import com.zane.l.R;
 import com.zane.bean.JokeDzBean;
 
@@ -46,7 +45,7 @@ public class AdapterJokeDz extends BaseQuickAdapter<JokeDzBean.MData, BaseViewHo
                 helper.setText(R.id.tv_content, item.content);
                 break;
             case 1:
-                GlideApp.with(mContext)
+                Glide.with(mContext)
                         .load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1499671312058&di=ed0cd4038eda33c4163ca5c5cc52d561&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201411%2F07%2F20141107192221_kCHCG.jpeg")
                         .into((ImageView) helper.getView(R.id.iv_ad));
                 break;

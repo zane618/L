@@ -15,11 +15,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.util.MultiTypeDelegate;
 import com.zane.bean.JokeQtBean;
-import com.zane.glide.GlideApp;
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 import com.zane.l.R;
+import com.zane.ui.MyApplication;
 
 import java.util.List;
+
+import static java.lang.System.load;
 
 /**
  * Created by shizhang on 2017/7/10.
@@ -51,18 +52,13 @@ public class AdapterJokeQt extends BaseQuickAdapter<JokeQtBean.MData, BaseViewHo
                     helper.setText(R.id.tv_time, item.updatetime);
                 }
                 helper.setText(R.id.tv_title, item.content);
-                GlideApp.with(mContext)
+                Glide.with(mContext)
                         .load(item.url)
-//                        .placeholder(R.drawable.home_bottom1_1)
-                        .error(R.drawable.error)
-                        .transition(withCrossFade())
-                        .thumbnail(0.1f)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into((ImageView) helper.getView(R.id.iv_img))
-                ;
+                        .apply(MyApplication.options)
+                        .into((ImageView) helper.getView(R.id.iv_img));
                 break;
             case 1:
-                GlideApp.with(mContext)
+                Glide.with(mContext)
                         .load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1499671312058&di=ed0cd4038eda33c4163ca5c5cc52d561&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201411%2F07%2F20141107192221_kCHCG.jpeg")
                         .into((ImageView) helper.getView(R.id.iv_ad));
                 break;

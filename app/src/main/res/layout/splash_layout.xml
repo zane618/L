@@ -7,26 +7,23 @@
         android:id="@+id/slogan_logo"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
         android:scaleType="fitXY"
+        android:layout_alignParentBottom="true"
         android:src="@drawable/slogan_logo"/>
+    <ImageView
+        android:id="@+id/splash_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/slogan_logo"
+        android:scaleType="fitXY"
+        android:src="@drawable/splash_top"/>
+
     <LinearLayout
         android:id="@+id/ad_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="100dp"
         android:orientation="vertical">
-        <!--<ImageView-->
-            <!--android:id="@+id/splash_top"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:scaleType="fitXY"-->
-            <!--android:src="@drawable/splash_top"/>-->
-    <!--<LinearLayout-->
-        <!--android:id="@+id/ad_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical"></LinearLayout>-->
     </LinearLayout>
     <Button
         android:id="@+id/btn_jump_sp"
