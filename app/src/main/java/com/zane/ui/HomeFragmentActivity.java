@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -17,9 +15,7 @@ import com.zane.ads.OnAdsListener;
 import com.zane.l.R;
 import com.zane.ui.adapter.HomeFragmentAdapter;
 import com.zane.ui.base.BaseFragmentActivity;
-import com.zane.ui.fragment.ConstellationFragment;
 import com.zane.ui.fragment.JokeFragment;
-import com.zane.ui.fragment.TinhistoryFragment;
 import com.zane.utility.L;
 import com.zane.utility.ToastUtils;
 
@@ -29,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 import cn.bmob.v3.update.BmobUpdateAgent;
+
+import static android.R.attr.action;
 
 /**
  * Created by shizhang on 2017/6/26.
@@ -73,12 +71,15 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
         ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY)
                 .loadBannerAd(mContext, BaseADManager.ID_BANNER,  new OnAdsListener() {
                     @Override
-                    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform) {
+                    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
                         if (success) {
                             adLayout.setVisibility(View.VISIBLE);
+                        } else {
+                            adLayout.setVisibility(View.GONE);
                         }
                     }
                 }, adLayout);
+
     }
 
     private void initViewpager() {
@@ -159,7 +160,7 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
     }
 
     @Override
-    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform) {
+    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
         if (!success) {
             exitAdManager = null;
             exitByTime();

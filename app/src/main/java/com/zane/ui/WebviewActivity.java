@@ -1,89 +1,72 @@
 package com.zane.ui;
 
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.LinearLayout;
 
+import com.just.library.AgentWeb;
 import com.zane.l.R;
-import com.zane.ui.base.BaseActivity;
+import com.zane.ui.base.BaseFragmentActivity;
 
 /**
  * Created by shizhang on 2017/7/16.
  */
 
-public class WebviewActivity extends BaseActivity {
+public class WebviewActivity extends BaseFragmentActivity implements View.OnClickListener{
     private ViewGroup layoutMain;
-    private WebView webView;
-
+    private AgentWeb agentWeb;
+    private View tvBack;
     @Override
-    public void netRefresh() {
-
-    }
-
-    @Override
-    public void setContentV() {
+    public void setContentView() {
         setContentView(R.layout.activity_webview);
-    }
-
-    @Override
-    public void getIntentData() {
-
     }
 
     @Override
     public void initView() {
         layoutMain = (ViewGroup) findViewById(R.id.layout_main);
-        webView = new WebView(this);
-        WebSettings webSettings = webView .getSettings();
-
-//支持获取手势焦点，输入用户名、密码或其他
-        webView.requestFocusFromTouch();
-
-        webSettings.setJavaScriptEnabled(true);  //支持js
-//        webSettings.setPluginsEnabled(true);  //支持插件,没找到方法？
-
-        //设置自适应屏幕，两者合用
-        webSettings.setUseWideViewPort(true);  //将图片调整到适合webview的大小
-        webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
-
-        webSettings.setSupportZoom(false);  //支持缩放，默认为true。是下面那个的前提。
-        webSettings.setBuiltInZoomControls(true); //设置内置的缩放控件。
-        //若上面是false，则该WebView不可缩放，这个不管设置什么都不能缩放。
-        webSettings.setDisplayZoomControls(false); //隐藏原生的缩放控件
-
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN); //支持内容重新布局
-        webSettings.supportMultipleWindows();  //多窗口
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);  //关闭webview中缓存
-        webSettings.setAllowFileAccess(true);  //设置可以访问文件
-        webSettings.setNeedInitialFocus(true); //当webview调用requestFocus时为webview设置节点
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
-        webSettings.setLoadsImagesAutomatically(true);  //支持自动加载图片
-        webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
-//        webView.setWebChromeClient(new WebChromeClient());
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutMain.addView(webView, lp);
-        String url_ad = mGetIntent.getStringExtra("url_ad");
-        if (!TextUtils.isEmpty(url_ad)) {
-            webView.loadUrl(url_ad);
+        tvBack = findViewById(R.id.tv_back);
+        tvBack.setOnClickListener(this);
+        if (mGetIntent == null) {
+            finish();
         }
+        String url_ad = mGetIntent.getStringExtra("url_ad");
+//        String url_ad = "https://www.baidu.com/";
+        if (!TextUtils.isEmpty(url_ad)) {
+            agentWeb = AgentWeb.with(this)
+                    .setAgentWebParent(layoutMain, new LinearLayout.LayoutParams(-1, -1))//传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams
+                    .useDefaultIndicator()// 使用默认进度条
+                    .defaultProgressBarColor() // 使用默认进度条颜色
+//                .setReceivedTitleCallback(mCallback) //设置 Web 页面的 title 回调
+                    .createAgentWeb()//
+                    .ready()
+                    .go(url_ad);
+        }
+
     }
 
     @Override
-    public void initData() {
+    protected void onPause() {
+        agentWeb.getWebLifeCycle().onPause();
+        super.onPause();
+    }
 
+    @Override
+    protected void onResume() {
+        agentWeb.getWebLifeCycle().onResume();
+        super.onResume();
     }
 
     @Override
     protected void onDestroy() {
-        layoutMain.removeView(webView);
-        if (webView != null) {
-            webView.destroy();
-        }
+        agentWeb.getWebLifeCycle().onDestroy();
         super.onDestroy();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == tvBack) {
+            finish();
+        }
     }
 }

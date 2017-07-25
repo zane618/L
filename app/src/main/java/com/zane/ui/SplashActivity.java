@@ -39,7 +39,7 @@ public class SplashActivity extends BaseFragmentActivity {
         if (adManager != null) {
             adManager.loadSplashAd(this, new OnAdsListener() {
                 @Override
-                public void onAdsLoaded(boolean success, final Object o, final Object o2, int platform) {
+                public void onAdsLoaded(boolean success, final Object o, final Object o2, int platform, View adView) {
                     if (success) {
                         final ImageView iv = new ImageView(mContext);
                         iv.setOnTouchListener(new View.OnTouchListener() {
@@ -62,6 +62,7 @@ public class SplashActivity extends BaseFragmentActivity {
                         Glide.with(SplashActivity.this)
                                 .load(((ADData)o).mImageUrl)
                                 .into(iv);
+                        adManager.onAdExposured(iv, o2, BaseADManager.ID_SPLASH);
                     }
                 }
             }, adLayout);

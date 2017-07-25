@@ -11,13 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public abstract class BaseFragment extends Fragment {
 	protected Gson mGson;
 	protected Context mContext;
 	protected Activity activity;
 	private ProgressDialog progressDialog = null;
-//	protected Gson mGson;
 	protected View noDataView, errorView;
 
 	protected abstract void initView(View view, Bundle savedInstanceState);
@@ -43,7 +43,7 @@ public abstract class BaseFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(getLayoutId(), container, false);
-		mGson = new Gson();
+		mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		initView(view, savedInstanceState);
 		return view;
 	}

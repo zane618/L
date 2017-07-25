@@ -135,6 +135,9 @@ public class JokeFragment extends BaseFragment {
             public void onPageSelected(int position) {
                 JokeFragmentCurrIndex = position;
                 magicIndicator.onPageSelected(position);
+                if (position == 1) {
+                    ((JokeQtFragment) fragments.get(position)).fuck();
+                }
             }
             @Override
             public void onPageScrollStateChanged(int state) {

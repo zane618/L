@@ -37,4 +37,5 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
     compile "com.android.support:recyclerview-v7:${SUPPORT_VERSION}"
     compile "com.android.support:support-v4:${SUPPORT_VERSION}"
+    compile 'com.just.agentweb:agentweb:1.2.5'
 }

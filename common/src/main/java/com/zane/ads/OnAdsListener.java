@@ -1,5 +1,7 @@
 package com.zane.ads;
 
+import android.view.View;
+
 /**
  * Created by shizhang on 2017/7/10.
  */
@@ -12,5 +14,5 @@ public interface OnAdsListener {
      * @param adO   转化前
      * @param platform
      */
-    void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform);
+    void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView);
 }

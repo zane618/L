@@ -1,5 +1,7 @@
 package com.zane.bean;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 
 /**
@@ -7,6 +9,8 @@ import java.io.Serializable;
  */
 
 public class BaseBean implements Serializable {
+    @Expose
     public int error_code;
+    @Expose
     public String reason;
 }

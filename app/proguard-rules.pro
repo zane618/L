@@ -37,6 +37,9 @@
 
 #如果有引用v4包可以添加下面这行
 -keep public class * extends android.support.v4.app.Fragment
+-keep interface android.support.v4.app.** { *; }
+-keep class android.support.v4.** { *; }
+-keep public class * extends android.support.v4.**
 #忽略警告
 -ignorewarning
 
@@ -156,16 +159,16 @@
  rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
 # 如果你需要兼容6.0系统，请不要混淆org.apache.http.legacy.jar
-#-dontwarn android.net.compatibility.**
-#-dontwarn android.net.http.**
-#-dontwarn com.android.internal.http.multipart.**
-#-dontwarn org.apache.commons.**
-#-dontwarn org.apache.http.**
-#-keep class android.net.compatibility.**{*;}
-#-keep class android.net.http.**{*;}
-#-keep class com.android.internal.http.multipart.**{*;}
-#-keep class org.apache.commons.**{*;}
-#-keep class org.apache.http.**{*;}
+-dontwarn android.net.compatibility.**
+-dontwarn android.net.http.**
+-dontwarn com.android.internal.http.multipart.**
+-dontwarn org.apache.commons.**
+-dontwarn org.apache.http.**
+-keep class android.net.compatibility.**{*;}
+-keep class android.net.http.**{*;}
+-keep class com.android.internal.http.multipart.**{*;}
+-keep class org.apache.commons.**{*;}
+-keep class org.apache.http.**{*;}
 # end keep BmobSDK
 # =========================================================================================================================================================
 #start glide 4
@@ -176,10 +179,31 @@
   public *;
 }
 # for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 #end glide 4
 # =========================================================================================================================================================
 #start 讯飞广告
 -keep class com.iflytek.voiceads.**{*;}
 #end 讯飞广告
 # =========================================================================================================================================================
+#start AgentWeb
+-keep class com.just.library.** {
+    *;
+}
+-dontwarn com.just.library.**
+#Java 注入类不要混淆 ， 例如 sample 里面的 AndroidInterface 类 ， 需要 Keep 。
+#-keepclassmembers class com.just.library.agentweb.AndroidInterface{ *; }
+#end AgentWeb
+# =========================================================================================================================================================
+#start Umeng
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keep public class com.zane.l.R$*{
+public static final int *;
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+#end Umeng=========================================================================================================================================================

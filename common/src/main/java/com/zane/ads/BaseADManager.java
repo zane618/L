@@ -17,4 +17,7 @@ public abstract class BaseADManager implements ADInterface{
     public static final int ID_SPLASH = 1;
     public static final int ID_EXIT = 2;
     public static final int ID_BANNER = 3;
+    public static final int ID_DZ_NATIVE = 4;
+    public static final int ID_QT_NATIVE = 5;
+    public static final int ID_INTERT = 6;
 }

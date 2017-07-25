@@ -1,5 +1,7 @@
 package com.zane.bean;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,6 @@ import java.util.List;
  */
 
 public class JokeDzRandBean extends BaseBean {
-
+    @Expose
     public List<JokeDzBean.MData> result;
 }

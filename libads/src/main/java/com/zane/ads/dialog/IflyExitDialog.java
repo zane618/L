@@ -18,6 +18,7 @@ import com.iflytek.voiceads.NativeADDataRef;
 import com.zane.ads.BaseADManager;
 import com.zane.ads.R;
 import com.zane.ads.voiceads.IflyAdManager;
+import com.zane.utility.L;
 
 import static com.lzy.okgo.db.CookieManager.init;
 
@@ -32,6 +33,7 @@ public class IflyExitDialog extends Dialog implements View.OnClickListener{
     private ImageView ivAd;
     private TextView tvTitle;
     private View leftBtn, rightBtn;
+    private boolean firstFlag = true;
 
     public IflyExitDialog(Context context, Object adItem) {
         super(context);
@@ -77,6 +79,9 @@ public class IflyExitDialog extends Dialog implements View.OnClickListener{
     public void show() {
         if (!this.isShowing()) {
             super.show();
+            if (firstFlag) {
+                L.e("退出 onExposured:" + ((NativeADDataRef) adItem).onExposured(adLayout));
+            }
         }
     }
 
@@ -85,6 +90,7 @@ public class IflyExitDialog extends Dialog implements View.OnClickListener{
         if (v == leftBtn) {
             dismiss();
         } else if (v == rightBtn) {
+            dismiss();
             ((Activity) context).finish();
         } else if (v == adLayout) {
             if (adItem instanceof NativeADDataRef) {

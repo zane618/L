@@ -12,6 +12,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.zane.ads.ADManagerFactory;
+import com.zane.ads.BaseADManager;
+import com.zane.ads.OnAdsListener;
 import com.zane.apis.Urls;
 import com.zane.bean.JokeDzRandBean;
 import com.zane.l.R;
@@ -27,7 +30,7 @@ import java.util.List;
  * Created by shizhang on 2017/7/5.
  */
 
-public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, OnAdsListener{
     private static final String TAG = "JokeDzFragment";
     private static final int BROWSE_RAND_TYPE = 0;//随机
     private static final int BROWSE_TEXT_TYPE = 1;//最新
@@ -41,6 +44,7 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
     private String time;//时间戳
     private String sort;
     private int browseType = 0;//浏览类型(包含时间前、后
+    private BaseADManager adManager;
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
@@ -65,64 +69,68 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
 
             }
         });
-        doBrowseType(true);
+        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
+        if (adManager != null) {
+            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
+        }
+//        doBrowseType(true);
     }
 
     /**
      * 看最新
      */
     private void getDataText(final boolean isRefresh) {
-        OkGo.<String>get(Urls.URL_JOKE_TEXT + "?key=" +
-                mContext.getString(R.string.joke_app_key) + "&page=" + page +
-                "&pagesize=" + Urls.PAGESIZE)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        JokeDzBean jokeDzBean = mGson.fromJson(response.body().toString(), JokeDzBean.class);
-                        if (jokeDzBean.error_code == 0) {
-                            List<JokeDzBean.MData> list = jokeDzBean.result.data;
-                            if (list != null && list.size() > 0) {
-                                if (isRefresh) {
-//                                    int size = datas.size();
-                                    datas.clear();
-//                                    adapter.notifyItemRangeRemoved(0, size);
-                                    adapter.notifyDataSetChanged();
-                                    datas.add(new JokeDzBean.MData("a", "a", 1));
-                                }
-//                                for (JokeDzBean.MData data : list) {
-//                                    data.layoutType = 0;
+//        OkGo.<String>get(Urls.URL_JOKE_TEXT + "?key=" +
+//                mContext.getString(R.string.joke_app_key) + "&page=" + page +
+//                "&pagesize=" + Urls.PAGESIZE)
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onSuccess(Response<String> response) {
+//                        JokeDzBean jokeDzBean = mGson.fromJson(response.body().toString(), JokeDzBean.class);
+//                        if (jokeDzBean.error_code == 0) {
+//                            List<JokeDzBean.MData> list = jokeDzBean.result.data;
+//                            if (list != null && list.size() > 0) {
+//                                if (isRefresh) {
+////                                    int size = datas.size();
+//                                    datas.clear();
+////                                    adapter.notifyItemRangeRemoved(0, size);
+//                                    adapter.notifyDataSetChanged();
+//                                    datas.add(new JokeDzBean.MData("a", "a", 1, null));
 //                                }
-                                adapter.addData(list);
-                                if (list.size() == Urls.PAGESIZE) {
-                                    adapter.loadMoreComplete();
-                                } else {
-                                    adapter.loadMoreEnd();
-                                }
-                                L.e("size" + datas.size());
-                                page ++;
-                            } else {
-                                adapter.loadMoreFail();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        L.e("看最新失败");
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        if (isRefresh) {
-                            swLayout.setRefreshing(false);
-                            adapter.setEnableLoadMore(true);
-                        } else {
-                            swLayout.setEnabled(true);
-                        }
-                    }
-                });
+////                                for (JokeDzBean.MData data : list) {
+////                                    data.layoutType = 0;
+////                                }
+//                                adapter.addData(list);
+//                                if (list.size() == Urls.PAGESIZE) {
+//                                    adapter.loadMoreComplete();
+//                                } else {
+//                                    adapter.loadMoreEnd();
+//                                }
+//                                L.e("size" + datas.size());
+//                                page ++;
+//                            } else {
+//                                adapter.loadMoreFail();
+//                            }
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(Response<String> response) {
+//                        super.onError(response);
+//                        L.e("看最新失败");
+//                    }
+//
+//                    @Override
+//                    public void onFinish() {
+//                        super.onFinish();
+//                        if (isRefresh) {
+//                            swLayout.setRefreshing(false);
+//                            adapter.setEnableLoadMore(true);
+//                        } else {
+//                            swLayout.setEnabled(true);
+//                        }
+//                    }
+//                });
     }
     /**
      * 随机看
@@ -142,11 +150,10 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
                                     datas.clear();
 //                                    adapter.notifyItemRangeRemoved(0, size);
                                     adapter.notifyDataSetChanged();
-                                    datas.add(new JokeDzBean.MData("a", "a", 1));
+                                    if (adView != null) {
+                                        datas.add(new JokeDzBean.MData("a", "a", 1, adView));
+                                    }
                                 }
-//                                for (JokeDzBean.MData data : list) {
-//                                    data.layoutType = 0;
-//                                }
                                 adapter.addData(list);
                                 if (list.size() == Urls.PAGESIZE) {
                                     adapter.loadMoreComplete();
@@ -165,64 +172,6 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
                     public void onError(Response<String> response) {
                         super.onError(response);
                         L.e("失败");
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        if (isRefresh) {
-                            swLayout.setRefreshing(false);
-                            adapter.setEnableLoadMore(true);
-                        } else {
-                            swLayout.setEnabled(true);
-                        }
-                    }
-                });
-    }
-    /**
-     * 根据时间
-     */
-    private void getDataByTime(final boolean isRefresh) {
-        OkGo.<String>get(Urls.URL_JOKE_LIST + "?key=" +
-                mContext.getString(R.string.joke_app_key) + "&page=" + page +
-                "&pagesize=" + Urls.PAGESIZE + "&sort=" + sort + "&time=" + time.substring(0, 10))
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        JokeDzBean jokeDzBean = mGson.fromJson(response.body().toString(), JokeDzBean.class);
-                        if (jokeDzBean.error_code == 0) {
-                            List<JokeDzBean.MData> list = jokeDzBean.result.data;
-                            if (list != null && list.size() > 0) {
-                                if (isRefresh) {
-//                                    int size = datas.size();
-                                    datas.clear();
-//                                    adapter.notifyItemRangeRemoved(0, size);
-                                    adapter.notifyDataSetChanged();
-                                    datas.add(new JokeDzBean.MData("a", "a", 1));
-                                }
-//                                for (JokeDzBean.MData data : list) {
-//                                    data.layoutType = 0;
-//                                }
-                                adapter.addData(list);
-                                if (list.size() == Urls.PAGESIZE) {
-                                    adapter.loadMoreComplete();
-                                } else {
-                                    adapter.loadMoreEnd();
-                                }
-                                L.e("size" + datas.size());
-                                page++;
-                            } else {
-                                // TODO: 2017/7/10 设置空布局提醒
-//                                adapter.loadMoreFail();
-                                adapter.loadMoreEnd();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        L.e("看最新失败");
                     }
 
                     @Override
@@ -289,7 +238,10 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
         L.e(TAG+ ":onRefresh");
         adapter.setEnableLoadMore(false);
         page = 1;
-        doBrowseType(true);
+        if (adManager != null) {
+            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
+        }
+//        doBrowseType(true);
     }
 
     @Override
@@ -298,5 +250,14 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
         swLayout.setEnabled(false);//加载更多，就不能下拉刷新
         doBrowseType(false);
     }
-
+    private View adView;
+    @Override
+    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
+        if (success) {
+            this.adView = adView;
+            doBrowseType(true);
+        } else {
+            doBrowseType(true);
+        }
+    }
 }

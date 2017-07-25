@@ -14,6 +14,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.zane.ads.ADManagerFactory;
+import com.zane.ads.BaseADManager;
+import com.zane.ads.OnAdsListener;
 import com.zane.apis.Urls;
 import com.zane.bean.JokeDzBean;
 import com.zane.bean.JokeDzRandBean;
@@ -32,7 +35,7 @@ import java.util.List;
  * Created by shizhang on 2017/7/10.
  */
 
-public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, OnAdsListener {
     private static final String TAG = "JokeDzFragment";
     private static final int BROWSE_RAND_TYPE = 0;//随机
     private static final int BROWSE_TEXT_TYPE = 1;//最新
@@ -46,7 +49,8 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
     private String time;//时间戳
     private String sort;
     private int browseType = 0;//浏览类型(包含时间前、后
-
+     private BaseADManager adManager;
+    private boolean firstFlag = true;
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         initVs(view);
@@ -86,9 +90,20 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
                 startActivity(new Intent(mContext, ImageFragmentActivity.class).putExtras(bundle));
             }
         });
-        doBrowseType(true);
+        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
+//        if (adManager != null) {
+//            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
+//        }
+//        doBrowseType(true);
     }
-
+    public void fuck() {
+        if (firstFlag) {
+            firstFlag = false;
+            if (adManager != null) {
+                adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
+            }
+        }
+    }
     /**
      * 看最新
      */
@@ -108,7 +123,7 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
                                     datas.clear();
 //                                    adapter.notifyItemRangeRemoved(0, size);
                                     adapter.notifyDataSetChanged();
-                                    datas.add(new JokeQtBean.MData("a", "a", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1499671312058&di=ed0cd4038eda33c4163ca5c5cc52d561&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201411%2F07%2F20141107192221_kCHCG.jpeg", 1));
+//                                    datas.add(new JokeQtBean.MData("a", "a", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1499671312058&di=ed0cd4038eda33c4163ca5c5cc52d561&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201411%2F07%2F20141107192221_kCHCG.jpeg", 1));
                                 }
 //                                for (JokeDzBean.MData data : list) {
 //                                    data.layoutType = 0;
@@ -163,11 +178,10 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
                                     datas.clear();
 //                                    adapter.notifyItemRangeRemoved(0, size);
                                     adapter.notifyDataSetChanged();
-                                    datas.add(new JokeQtBean.MData("a", "a", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1499671312058&di=ed0cd4038eda33c4163ca5c5cc52d561&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201411%2F07%2F20141107192221_kCHCG.jpeg", 1));
+                                    if (adView != null) {
+                                        datas.add(new JokeQtBean.MData(null, null, null, 1, adView));
+                                    }
                                 }
-//                                for (JokeDzBean.MData data : list) {
-//                                    data.layoutType = 0;
-//                                }
                                 adapter.addData(list);
                                 if (list.size() == Urls.PAGESIZE) {
                                     adapter.loadMoreComplete();
@@ -186,63 +200,6 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
                     public void onError(Response<String> response) {
                         super.onError(response);
                         L.e("失败");
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        if (isRefresh) {
-                            swLayout.setRefreshing(false);
-                            adapter.setEnableLoadMore(true);
-                        } else {
-                            swLayout.setEnabled(true);
-                        }
-                    }
-                });
-    }
-    /**
-     * 根据时间
-     */
-    private void getDataByTime(final boolean isRefresh) {
-        OkGo.<String>get(Urls.URL_JOKE_LIST + "?key=" +
-                mContext.getString(R.string.joke_app_key) + "&page=" + page +
-                "&pagesize=" + Urls.PAGESIZE + "&sort=" + sort + "&time=" + time.substring(0, 10))
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        JokeQtBean jokeQtBean = mGson.fromJson(response.body().toString(), JokeQtBean.class);
-                        if (jokeQtBean.error_code == 0) {
-                            List<JokeQtBean.MData> list = jokeQtBean.result.data;
-                            if (list != null && list.size() > 0) {
-                                if (isRefresh) {
-//                                    int size = datas.size();
-                                    datas.clear();
-//                                    adapter.notifyItemRangeRemoved(0, size);
-                                    adapter.notifyDataSetChanged();
-                                    datas.add(new JokeQtBean.MData("a", "a", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1499671312058&di=ed0cd4038eda33c4163ca5c5cc52d561&imgtype=0&src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201411%2F07%2F20141107192221_kCHCG.jpeg", 1));
-                                }
-//                                for (JokeDzBean.MData data : list) {
-//                                    data.layoutType = 0;
-//                                }
-                                adapter.addData(list);
-                                if (list.size() == Urls.PAGESIZE) {
-                                    adapter.loadMoreComplete();
-                                } else {
-                                    adapter.loadMoreEnd();
-                                }
-                                L.e("size" + datas.size());
-                            } else {
-                                // TODO: 2017/7/10 设置空布局提醒
-//                                adapter.loadMoreFail();
-                                adapter.loadMoreEnd();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        L.e("看最新失败");
                     }
 
                     @Override
@@ -309,7 +266,9 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
         L.e(TAG+ ":onRefresh");
         adapter.setEnableLoadMore(false);
         page = 1;
-        doBrowseType(true);
+        if (adManager != null) {
+            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
+        }
     }
 
     @Override
@@ -318,5 +277,14 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
         swLayout.setEnabled(false);//加载更多，就不能下拉刷新
         doBrowseType(false);
     }
-
+    private View adView;
+    @Override
+    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
+        if (success) {
+            this.adView = adView;
+            doBrowseType(true);
+        } else {
+            doBrowseType(true);
+        }
+    }
 }

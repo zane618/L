@@ -3,4 +3,8 @@
     <string name="bmob_app_id">fd5cc77f8db58284c698e8fef8d84563</string>
 
     <string name="joke_app_key">d0fa9de4313f0b0922c9fdfcc54e0e9c</string>
+
+
+    <string name="description">description</string>
+    <string name="label">label</string>
 </resources>

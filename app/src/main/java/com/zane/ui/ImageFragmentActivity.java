@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
+import com.zane.ads.ADManagerFactory;
+import com.zane.ads.BaseADManager;
 import com.zane.custome.HackyViewPager;
 import com.zane.l.R;
 import com.zane.ui.adapter.HomeFragmentAdapter;
@@ -26,7 +28,7 @@ public class ImageFragmentActivity extends BaseFragmentActivity implements ViewP
     private List<Fragment> fragments = new ArrayList<>();
     private String[] imgUrls;
     private String[] titles;
-
+    BaseADManager adManager;
     @Override
     public void setContentView() {
         setContentView(R.layout.activity_fragment_image);
@@ -37,6 +39,10 @@ public class ImageFragmentActivity extends BaseFragmentActivity implements ViewP
         Intent intent = getIntent();
         if (intent == null) {
             finish();
+        }
+        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
+        if (adManager != null) {
+            adManager.loadInterstitialAd(mContext, BaseADManager.ID_INTERT);
         }
         imgUrls = intent.getExtras().getStringArray("imgUrls");
         titles = intent.getExtras().getStringArray("titles");

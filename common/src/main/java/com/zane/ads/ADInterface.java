@@ -11,11 +11,16 @@ import android.view.ViewGroup;
 
 public interface ADInterface {
 
+    void loadNativeAd(Context context, int adPositin, OnAdsListener onAdsListener);
+
+    void loadInterstitialAd(Context context, int adPosition);
     boolean loadSplashAd(Context context, OnAdsListener onAdsListener, View adLayout);
 
     void loadBannerAd(Context context, int adPosition, OnAdsListener onAdsListener, ViewGroup viewGroup);
 
     void loadExitAd(Context context, OnAdsListener onAdsListener);
+
+    void onAdExposured(View view, Object o, int adPostion);
 
     void onAdTouchListener(MotionEvent event, int adPosition);
 
