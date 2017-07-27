@@ -13,7 +13,7 @@ public interface ADInterface {
 
     void loadNativeAd(Context context, int adPositin, OnAdsListener onAdsListener);
 
-    void loadInterstitialAd(Context context, int adPosition);
+    void loadInterstitialAd(Context context, int adPosition, OnAdsListener l);
     boolean loadSplashAd(Context context, OnAdsListener onAdsListener, View adLayout);
 
     void loadBannerAd(Context context, int adPosition, OnAdsListener onAdsListener, ViewGroup viewGroup);
@@ -25,4 +25,16 @@ public interface ADInterface {
     void onAdTouchListener(MotionEvent event, int adPosition);
 
     void onAdClickListener(View view, Object o);
+
+
+    /**
+     * 兼容有米
+     */
+    void requestSpot(Context context);
+    void onPause(Context context);
+    void onStop(Context context);
+    void onDestroy(Context context);
+    void onAppExit(Context context);
+    boolean onBackkeyEvent(Context context);
+
 }

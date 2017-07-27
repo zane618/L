@@ -35,12 +35,12 @@ android {
     }
     //多渠道
     productFlavors {
-//        mytest{}
+        mytest{}
         yingyongbao {}
-//        wandoujia {}
-//        baidu {}
-//        _360 {}
-//        uc {}
+        wandoujia {}
+        baidu {}
+        _360 {}
+        uc {}
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }
@@ -72,6 +72,11 @@ android {
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
+    }
+    repositories {
+        flatDir {
+            dirs 'libs','../libads/libs'
+        }
     }
 
 }

@@ -8,4 +8,7 @@
     <string name="exit_dzhead_ad_id">5636C70A22465082F98C023A18ED106E</string>
     <string name="exit_qthead_ad_id">4BEBBA7CBE26C6FCF4F1FD16D94F8A47</string>
     <string name="insert_ad_id">1DB91ECB46D4AF5CEA3BEDDF713A581E</string>
+    <!--有米-->
+    <string name="youmi_appid">d201cf880a227be6</string>
+    <string name="youmi_appkey">c3fd515e51ce1cce</string>
 </resources>

@@ -58,7 +58,7 @@ public class IflyAdManager extends BaseADManager {
     }
 
     @Override
-    public void loadInterstitialAd(Context context, int adPosition) {
+    public void loadInterstitialAd(Context context, int adPosition, final OnAdsListener l) {
         IFLYInterstitialAd ad =null;
         switch (adPosition) {
             case BaseADManager.ID_INTERT:
@@ -81,7 +81,9 @@ public class IflyAdManager extends BaseADManager {
 
                 @Override
                 public void onAdFailed(AdError adError) {
-
+                    if (l != null) {
+                        l.onAdsLoaded(false, null, null, BaseADManager.AD_PLATFORM_IFLY, null);
+                    }
                 }
 
                 @Override
@@ -315,6 +317,36 @@ public class IflyAdManager extends BaseADManager {
     @Override
     public void onAdClickListener(View view, Object o) {
         ((NativeADDataRef) o).onClicked(view);
+    }
+
+    @Override
+    public void requestSpot(Context context) {
+
+    }
+
+    @Override
+    public void onPause(Context context) {
+
+    }
+
+    @Override
+    public void onStop(Context context) {
+
+    }
+
+    @Override
+    public void onDestroy(Context context) {
+
+    }
+
+    @Override
+    public void onAppExit(Context context) {
+
+    }
+
+    @Override
+    public boolean onBackkeyEvent(Context context) {
+        return false;
     }
 
 

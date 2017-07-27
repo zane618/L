@@ -20,10 +20,16 @@ android {
             assets.srcDirs = ['assets']
         }
     }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':common')
     compile "com.android.support:recyclerview-v7:${SUPPORT_VERSION}"
+    compile name: 'YoumiSdk_v7.4.0_2017-07-18', ext: 'aar'
 }

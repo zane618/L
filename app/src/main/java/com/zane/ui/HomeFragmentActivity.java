@@ -19,6 +19,8 @@ import com.zane.ui.fragment.JokeFragment;
 import com.zane.utility.L;
 import com.zane.utility.ToastUtils;
 
+import net.youmi.android.nm.bn.BannerManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -165,5 +167,11 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
             exitAdManager = null;
             exitByTime();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ADManagerFactory.onAppExit(this);
     }
 }

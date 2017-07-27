@@ -5,6 +5,7 @@ import android.app.Application;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.lzy.okgo.OkGo;
+import com.zane.ads.ADManagerFactory;
 import com.zane.l.R;
 
 import java.util.concurrent.TimeUnit;
@@ -33,6 +34,7 @@ public class MyApplication extends Application {
         OkGo.getInstance().init(this)
         .setOkHttpClient(builder.build());
         initGildeOptions();
+        ADManagerFactory.initAdPlatform(this);
     }
     public MyApplication getInstance() {
         if (instance == null) {
