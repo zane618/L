@@ -10,8 +10,9 @@
 
     <color name="bg">#F0F5F9</color>
     <color name="c_line">#C9D6DE</color>
-    <color name="c_title">#1E2022</color>
-    <color name="c_content">#52616A</color>
+    <color name="c_title">#DC000000</color>
+    <color name="c_content">#B4000000</color>
+    <color name="c_time">#96000000</color>
     <color name="translucent_background">#00000000</color>
 
     <color name="super_light_grey">#FAFAFA</color>

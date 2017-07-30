@@ -24,7 +24,7 @@ public class ADManagerFactory {
     }
     public static void initAdPlatform(Context context) {
         AdManager.getInstance(context)
-                .init(context.getString(R.string.youmi_appid), context.getString(R.string.youmi_appkey), true);
+                .init(context.getString(R.string.youmi_appid), context.getString(R.string.youmi_appkey), false);
         YoumiAdManager.getInstance(context).requestSpot(context);
     }
     public static void onAppExit(Context context) {

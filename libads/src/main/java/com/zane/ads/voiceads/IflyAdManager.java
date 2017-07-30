@@ -45,13 +45,13 @@ public class IflyAdManager extends BaseADManager {
             case BaseADManager.ID_DZ_NATIVE:
                 mDzAd = new IFLYNativeAd(context, context.getString(R.string.exit_dzhead_ad_id), new NativeListener(context, adPositin, onAdsListener));
                 mDzAd.setParameter(AdKeys.CUSTOM_BROSWER, "com.zane.ui.WebviewActivity");
-                mDzAd.setParameter(AdKeys.DEBUG_MODE, "true");
+//                mDzAd.setParameter(AdKeys.DEBUG_MODE, "true");
                 mDzAd.loadAd(count);
                 break;
             case BaseADManager.ID_QT_NATIVE:
                 mQtAd = new IFLYNativeAd(context, context.getString(R.string.exit_qthead_ad_id), new NativeListener(context, adPositin, onAdsListener));
                 mQtAd.setParameter(AdKeys.CUSTOM_BROSWER, "com.zane.ui.WebviewActivity");
-                mQtAd.setParameter(AdKeys.DEBUG_MODE, "true");
+//                mQtAd.setParameter(AdKeys.DEBUG_MODE, "true");
                 mQtAd.loadAd(count);
                 break;
         }
@@ -71,7 +71,7 @@ public class IflyAdManager extends BaseADManager {
             ad.setParameter(AdKeys.DOWNLOAD_ALERT, "false");
             ad.setParameter(AdKeys.INTERSTITIAL_BACKGROUD_COLOR, "#99000000");
             ad.setParameter(AdKeys.CUSTOM_BROSWER, "com.zane.ui.WebviewActivity");
-            ad.setParameter(AdKeys.DEBUG_MODE, "true");
+//            ad.setParameter(AdKeys.DEBUG_MODE, "true");
             final IFLYInterstitialAd finalAd = ad;
             ad.loadAd(new IFLYAdListener() {
                 @Override
@@ -190,7 +190,7 @@ public class IflyAdManager extends BaseADManager {
             }
         });
         mSplashAd.setParameter(AdKeys.CUSTOM_BROSWER, "com.zane.ui.WebviewActivity");
-        mSplashAd.setParameter(AdKeys.DEBUG_MODE, "true");
+//        mSplashAd.setParameter(AdKeys.DEBUG_MODE, "true");
         mSplashAd.loadAd(count);
         return true;
     }
@@ -198,9 +198,12 @@ public class IflyAdManager extends BaseADManager {
     @Override
     public void loadBannerAd(Context context, int adPosition, final OnAdsListener onAdsListener, ViewGroup viewGroup) {
         final IFLYBannerAd bannerAd = IFLYBannerAd.createBannerAd(context, context.getString(R.string.exit_bottom_ad_id));
+        if (bannerAd == null) {
+            return;
+        }
         bannerAd.setAdSize(IFLYAdSize.BANNER);
         bannerAd.setParameter(AdKeys.DOWNLOAD_ALERT, "false");
-        bannerAd.setParameter(AdKeys.DEBUG_MODE, "true");
+//        bannerAd.setParameter(AdKeys.DEBUG_MODE, "true");
         viewGroup.removeAllViews();
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         viewGroup.addView(bannerAd, lp);
@@ -262,7 +265,7 @@ public class IflyAdManager extends BaseADManager {
             }
         });
         mExitAd.setParameter(AdKeys.CUSTOM_BROSWER, "com.zane.ui.WebviewActivity");
-        mExitAd.setParameter(AdKeys.DEBUG_MODE, "true");
+//        mExitAd.setParameter(AdKeys.DEBUG_MODE, "true");
         mExitAd.loadAd(count);
     }
 

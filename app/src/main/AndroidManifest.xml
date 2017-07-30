@@ -32,11 +32,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--Test-->
+
         <!--笑话浏览模式activity-->
         <activity android:name="com.zane.ui.jokefragment.ChooseJokeBrowseTypeActivity"
         android:theme="@style/translucent"
         android:configChanges="orientation|screenSize"
         android:windowSoftInputMode="adjustPan"/>
+        <!--历史上的今天详情界面-->
+        <activity android:name="com.zane.todayhistory.HistoryDetailActivity"
+            android:theme="@style/ImageFragmentTheme"
+            android:configChanges="orientation|screenSize"/>
         <!--图片缩放activity-->
         <activity android:name="com.zane.ui.ImageFragmentActivity"
             android:theme="@style/ImageFragmentTheme"

@@ -257,6 +257,7 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
             this.adView = adView;
             doBrowseType(true);
         } else {
+            this.adView = null;
             doBrowseType(true);
         }
     }

@@ -7,6 +7,10 @@ android {
     defaultConfig {
         minSdkVersion MIN_SDK_VERSION
         targetSdkVersion TARGET_SDK_VERSION
+        //设置支持的 SO 库构架
+		ndk {
+			abiFilters 'armeabi'//, 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+		}
     }
     buildTypes {
         release {
@@ -31,5 +35,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':common')
     compile "com.android.support:recyclerview-v7:${SUPPORT_VERSION}"
+    compile "com.android.support:support-v4:${SUPPORT_VERSION}"
     compile name: 'YoumiSdk_v7.4.0_2017-07-18', ext: 'aar'
 }

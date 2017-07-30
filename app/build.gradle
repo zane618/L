@@ -35,7 +35,7 @@ android {
     }
     //多渠道
     productFlavors {
-        mytest{}
+//        mytest{}
         yingyongbao {}
         wandoujia {}
         baidu {}
@@ -93,5 +93,6 @@ dependencies {
     compile project(':libpickerview')
     compile project(':libads')
     compile project(':photoview')
-    compile 'com.umeng.analytics:analytics:latest.integration'//友盟统计
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    //友盟统计
 }

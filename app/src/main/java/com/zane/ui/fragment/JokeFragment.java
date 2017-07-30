@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.zane.l.R;
+import com.zane.todayhistory.FragmentHistoryToday;
 import com.zane.ui.adapter.HomeFragmentAdapter;
 import com.zane.ui.base.BaseFragment;
 import com.zane.ui.jokefragment.JokeDzFragment;
@@ -39,7 +40,7 @@ public class JokeFragment extends BaseFragment {
     private ViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private HomeFragmentAdapter adapter;
-    private static final String[] titleDatas = new String[]{"段子", "趣图"};
+    private static final String[] titleDatas = new String[]{"段子", "趣图","史上今日"};
     private Button test;
     public static int JokeFragmentCurrIndex;
 
@@ -52,8 +53,10 @@ public class JokeFragment extends BaseFragment {
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         fragments.add(new JokeDzFragment());
         fragments.add(new JokeQtFragment());
+        fragments.add(new FragmentHistoryToday());
         adapter = new HomeFragmentAdapter(getChildFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(3);
         initMagicIndicator(view);
         test = (Button) view.findViewById(R.id.test);
         test.setOnClickListener(new View.OnClickListener() {

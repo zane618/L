@@ -21,4 +21,10 @@ public class Urls {
     //随机获取趣图/笑话
     //使用样例 url?key=...&type=...(默认笑话、type=pic趣图
     public static final String URL_JOKE_RAND = "http://v.juhe.cn/joke/randJoke.php";
+
+
+    //历史上的今天列表  date = 1/1
+    public static final String URL_HISTORY_TODAY_LIST = "http://v.juhe.cn/todayOnhistory/queryEvent.php?key=3ee4cb8470f2f2a4a97aaebaab1e73bc&date=";
+    //历史上的今天详情
+    public static final String URL_HISTORY_TODAY_DETAIL = "http://v.juhe.cn/todayOnhistory/queryDetail.php?key=3ee4cb8470f2f2a4a97aaebaab1e73bc&e_id=";
 }
