@@ -15,6 +15,7 @@ import com.zane.l.R;
 import com.zane.ui.adapter.HomeFragmentAdapter;
 import com.zane.ui.base.BaseFragmentActivity;
 import com.zane.ui.fragment.ImageFragment;
+import com.zane.utility.L;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,6 @@ public class ImageFragmentActivity extends BaseFragmentActivity implements ViewP
         if (intent == null) {
             finish();
         }
-        loadInsertAd();
         imgUrls = intent.getExtras().getStringArray("imgUrls");
         titles = intent.getExtras().getStringArray("titles");
         hackyViewPager = (HackyViewPager) findViewById(R.id.hacky_view_pager);
@@ -62,6 +62,7 @@ public class ImageFragmentActivity extends BaseFragmentActivity implements ViewP
         }
         adapter = new HomeFragmentAdapter(getSupportFragmentManager(), fragments);
         hackyViewPager.setAdapter(adapter);
+        loadInsertAd();
     }
 
     @Override
@@ -81,6 +82,9 @@ public class ImageFragmentActivity extends BaseFragmentActivity implements ViewP
 
     private void loadInsertAd() {
         adManager = ADManagerFactory.getADManager(mContext, adPlatform);
+        if (0 != new Random().nextInt(3)) {
+            return;
+        }
         if (adManager != null) {
             adManager.loadInterstitialAd(mContext, BaseADManager.ID_INTERT, ImageFragmentActivity.this);
         }

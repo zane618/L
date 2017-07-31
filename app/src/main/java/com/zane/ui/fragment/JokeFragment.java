@@ -139,7 +139,9 @@ public class JokeFragment extends BaseFragment {
                 JokeFragmentCurrIndex = position;
                 magicIndicator.onPageSelected(position);
                 if (position == 1) {
-                    ((JokeQtFragment) fragments.get(position)).fuck();
+                    ((JokeQtFragment) fragments.get(1)).fuck();
+                } else if(position == 2){
+                    ((FragmentHistoryToday) fragments.get(2)).fuck();
                 }
             }
             @Override

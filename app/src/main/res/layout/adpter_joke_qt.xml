@@ -17,7 +17,7 @@
         android:textSize="17sp"
         android:text="time"
         android:lineSpacingMultiplier="1.2"
-        android:letterSpacing="1.1"
+        android:letterSpacing="0.1"
         android:textColor="@color/c_content"/>
     <TextView
         android:id="@+id/tv_time"

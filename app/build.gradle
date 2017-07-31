@@ -41,6 +41,9 @@ android {
         baidu {}
         _360 {}
         uc {}
+        huawei {}
+        vivo {}
+        xiaomi {}
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }

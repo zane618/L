@@ -27,6 +27,7 @@ import com.zane.ui.ImageFragmentActivity;
 import com.zane.ui.base.BaseFragment;
 import com.zane.util.CatchLinearLayoutManager;
 import com.zane.utility.L;
+import com.zane.utility.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +89,12 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
                 bundle.putStringArray("titles", titles);
                 bundle.putStringArray("imgUrls", imgUrls);
                 startActivity(new Intent(mContext, ImageFragmentActivity.class).putExtras(bundle));
+            }
+        });
+        swLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swLayout.setRefreshing(true);
             }
         });
         adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
@@ -199,6 +206,7 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
+                        ToastUtils.showToast(mContext, mContext.getString(R.string.net_error));
                         L.e("失败");
                     }
 

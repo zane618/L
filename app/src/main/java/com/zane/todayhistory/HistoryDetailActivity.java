@@ -12,6 +12,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.zane.ads.ADManagerFactory;
+import com.zane.ads.BaseADManager;
+import com.zane.ads.OnAdsListener;
 import com.zane.apis.Urls;
 import com.zane.custome.RecycleViewDivider;
 import com.zane.l.R;
@@ -21,6 +24,7 @@ import com.zane.utility.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -69,6 +73,20 @@ public class HistoryDetailActivity extends BaseFragmentActivity implements View.
         });
         recyclerView.setAdapter(adapter);
         getData();
+        loadInsertAd();
+    }
+
+    private void loadInsertAd() {
+        if (0 != new Random().nextInt(3)) {
+            return;
+        }
+        ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY)
+                .loadInterstitialAd(mContext, BaseADManager.ID_INTERT, new OnAdsListener() {
+                    @Override
+                    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
+
+                    }
+                });
     }
 
     /**
