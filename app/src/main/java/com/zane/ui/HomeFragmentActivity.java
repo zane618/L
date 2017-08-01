@@ -70,6 +70,7 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
             }
         });
         appUpdate();
+/*
         ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY)
                 .loadBannerAd(mContext, BaseADManager.ID_BANNER,  new OnAdsListener() {
                     @Override
@@ -81,6 +82,7 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
                         }
                     }
                 }, adLayout);
+*/
 
     }
 
@@ -142,11 +144,11 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
 
     @Override
     public void onBackPressed() {
-        if (exitAdManager != null) {
-            exitAdManager.loadExitAd(mContext, this);
-        } else {
+//        if (exitAdManager != null) {
+//            exitAdManager.loadExitAd(mContext, this);
+//        } else {
             exitByTime();
-        }
+//        }
 
     }
 

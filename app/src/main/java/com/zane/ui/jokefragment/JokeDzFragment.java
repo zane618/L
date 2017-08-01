@@ -77,10 +77,10 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
             }
         });
         adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
-        if (adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
-        }
-//        doBrowseType(true);
+//        if (adManager != null) {
+//            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
+//        }
+        doBrowseType(true);
     }
 
     /**
@@ -246,10 +246,10 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
         L.e(TAG+ ":onRefresh");
         adapter.setEnableLoadMore(false);
         page = 1;
-        if (adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
-        }
-//        doBrowseType(true);
+//        if (adManager != null) {
+//            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
+//        }
+        doBrowseType(true);
     }
 
     @Override

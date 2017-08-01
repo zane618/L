@@ -37,17 +37,21 @@ android {
     productFlavors {
 //        mytest{}
         yingyongbao {}
-        wandoujia {}
+//        ali {}
+//        wandoujia {}
         baidu {}
         _360 {}
-        uc {}
-        huawei {}
-        vivo {}
+        _91 {}
+        anzhuo {}
+//        uc {}
+//        huawei {}
+//        vivo {}
         xiaomi {}
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }
     }
+    //多渠道
     // release版本 apk重命名
     applicationVariants.all { variant ->
         variant.outputs.each { output ->

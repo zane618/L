@@ -60,12 +60,7 @@ public class FragmentHistoryToday extends BaseFragment implements SwipeRefreshLa
                 startActivity(intent);
             }
         });
-        swLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swLayout.setRefreshing(true);
-            }
-        });
+
         Calendar calendar = Calendar.getInstance();
         month = calendar.get(Calendar.MONTH) + 1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -73,6 +68,12 @@ public class FragmentHistoryToday extends BaseFragment implements SwipeRefreshLa
     }
     public void fuck() {
         if (firstFlag) {
+            swLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swLayout.setRefreshing(true);
+                }
+            });
             firstFlag = false;
             getData();
         }

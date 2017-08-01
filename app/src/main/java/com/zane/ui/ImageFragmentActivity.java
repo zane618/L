@@ -83,7 +83,7 @@ public class ImageFragmentActivity extends BaseFragmentActivity implements ViewP
     private void loadInsertAd() {
         adManager = ADManagerFactory.getADManager(mContext, adPlatform);
         if (0 != new Random().nextInt(3)) {
-            return;
+//            return;
         }
         if (adManager != null) {
             adManager.loadInterstitialAd(mContext, BaseADManager.ID_INTERT, ImageFragmentActivity.this);

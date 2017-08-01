@@ -15,19 +15,11 @@
         android:paddingBottom="3dp"
         android:gravity="center"
         android:textSize="17sp"
-        android:text="time"
+        android:text="title"
         android:lineSpacingMultiplier="1.2"
         android:letterSpacing="0.1"
-        android:textColor="@color/c_content"/>
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/c_time"
         android:layout_marginBottom="7dp"
-        android:textSize="15sp"
-        android:text="content"/>
+        android:textColor="@color/c_content"/>
     <ImageView
         android:id="@+id/iv_img"
         android:layout_width="wrap_content"

@@ -91,12 +91,16 @@ public class SplashActivity extends BaseFragmentActivity {
     };
 
     private void goToHomeActivity() {
+        timerCancel();
         startActivity(new Intent(this, HomeFragmentActivity.class));
         finish();
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        timerCancel();
+    }
+    private void timerCancel() {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }

@@ -47,11 +47,11 @@ public class AdapterJokeQt extends BaseQuickAdapter<JokeQtBean.MData, BaseViewHo
 
         switch (helper.getItemViewType()) {
             case 0:
-                if (item.updatetime == null) {
+                /*if (item.updatetime == null) {
                     helper.setText(R.id.tv_time, item.unixtime);
                 } else {
                     helper.setText(R.id.tv_time, item.updatetime);
-                }
+                }*/
                 helper.setText(R.id.tv_title, item.content);
                 Glide.with(mContext)
                         .load(item.url)

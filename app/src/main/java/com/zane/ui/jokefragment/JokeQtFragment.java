@@ -91,12 +91,7 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
                 startActivity(new Intent(mContext, ImageFragmentActivity.class).putExtras(bundle));
             }
         });
-        swLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swLayout.setRefreshing(true);
-            }
-        });
+
         adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
 //        if (adManager != null) {
 //            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
@@ -105,10 +100,17 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
     }
     public void fuck() {
         if (firstFlag) {
+            swLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swLayout.setRefreshing(true);
+                }
+            });
             firstFlag = false;
-            if (adManager != null) {
-                adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
-            }
+//            if (adManager != null) {
+//                adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
+//            }
+            doBrowseType(true);
         }
     }
     /**
@@ -274,9 +276,10 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
         L.e(TAG+ ":onRefresh");
         adapter.setEnableLoadMore(false);
         page = 1;
-        if (adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
-        }
+//        if (adManager != null) {
+//            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
+//        }
+        doBrowseType(true);
     }
 
     @Override
