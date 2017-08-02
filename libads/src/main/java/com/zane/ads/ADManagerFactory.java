@@ -6,8 +6,9 @@ import com.zane.ads.BaseADManager;
 import com.zane.ads.voiceads.IflyAdManager;
 import com.zane.ads.youmiads.YoumiAdManager;
 
-import net.youmi.android.AdManager;
-import net.youmi.android.nm.sp.SpotManager;
+import ner.gfd.pjp.AdManager;
+import ner.gfd.pjp.nm.sp.SpotManager;
+
 
 /**
  * Created by shizhang on 2017/7/10.

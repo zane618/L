@@ -9,11 +9,12 @@ import com.zane.ads.BaseADManager;
 import com.zane.ads.OnAdsListener;
 import com.zane.utility.L;
 
-import net.youmi.android.nm.bn.BannerManager;
-import net.youmi.android.nm.bn.BannerViewListener;
-import net.youmi.android.nm.sp.SpotListener;
-import net.youmi.android.nm.sp.SpotManager;
-import net.youmi.android.nm.sp.SpotRequestListener;
+import ner.gfd.pjp.nm.bn.BannerManager;
+import ner.gfd.pjp.nm.bn.BannerViewListener;
+import ner.gfd.pjp.nm.sp.SpotListener;
+import ner.gfd.pjp.nm.sp.SpotManager;
+import ner.gfd.pjp.nm.sp.SpotRequestListener;
+
 
 /**
  * Created by shizhang on 2017/7/27.
