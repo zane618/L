@@ -80,12 +80,12 @@ public class SplashActivity extends BaseFragmentActivity {
     private CountDownTimer countDownTimer = new CountDownTimer(5000, 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
-            btnJump.setText("跳过(" + millisUntilFinished / 1000 + "s)");
+            btnJump.setText("跳过(" + (millisUntilFinished / 1000 - 1) + "s)");
         }
 
         @Override
         public void onFinish() {
-            btnJump.setText("跳过(" + 0 + "s)");
+//            btnJump.setText("跳过(" + 0 + "s)");
             goToHomeActivity();
         }
     };
