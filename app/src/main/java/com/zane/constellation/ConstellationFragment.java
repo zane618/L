@@ -3,28 +3,35 @@ package com.zane.constellation;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.mcxtzhang.layoutmanager.swipecard.CardConfig;
-import com.mcxtzhang.layoutmanager.swipecard.OverLayCardLayoutManager;
-import com.mcxtzhang.layoutmanager.swipecard.RenRenCallback;
 import com.zane.apis.Urls;
 import com.zane.l.R;
 import com.zane.ui.base.BaseFragment;
+import com.zane.utility.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.yuqirong.cardswipelayout.CardConfig;
+import me.yuqirong.cardswipelayout.CardItemTouchHelperCallback;
+import me.yuqirong.cardswipelayout.CardLayoutManager;
+import me.yuqirong.cardswipelayout.OnSwipeListener;
 
 /**
  * Created by shizhang on 2017/6/26.
  */
 
-public class ConstellationFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class ConstellationFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, OnSwipeListener{
     private SwipeRefreshLayout swLayout;
     private RecyclerView recyclerView;
     private ConstellationAdapter adapter;
@@ -40,15 +47,20 @@ public class ConstellationFragment extends BaseFragment implements SwipeRefreshL
         swLayout.setOnRefreshListener(this);
         swLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         recyclerView = (RecyclerView) view.findViewById(R.id.recyler_view);
-        recyclerView.setLayoutManager(new OverLayCardLayoutManager());
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new ConstellationAdapter(R.layout.adapter_constellation_day, datas);
         recyclerView.setAdapter(adapter);
-        CardConfig.initConfig(mContext);
-        RenRenCallback callback = new RenRenCallback(recyclerView, adapter, datas);
-//        callback.setOnSwipedListener();
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-//        getData(false);
+        CardItemTouchHelperCallback cardCallback = new CardItemTouchHelperCallback(adapter, datas, ConstellationFragment.this);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(cardCallback);
+        CardLayoutManager cardLayoutManager = new CardLayoutManager(recyclerView, touchHelper);
+        recyclerView.setLayoutManager(cardLayoutManager);
+        touchHelper.attachToRecyclerView(recyclerView);
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                ToastUtils.showToast(mContext, datas.get(position).name);
+            }
+        });
     }
     /**
      * 是否第一次启动
@@ -123,5 +135,30 @@ public class ConstellationFragment extends BaseFragment implements SwipeRefreshL
     @Override
     public void onRefresh() {
         getData(true);
+    }
+
+    @Override
+    public void onSwiping(RecyclerView.ViewHolder viewHolder, float ratio, int direction) {
+        viewHolder.itemView.setAlpha(1 - Math.abs(ratio) * 0.2f);
+        if (direction == CardConfig.SWIPING_LEFT) {
+            ((BaseViewHolder) viewHolder).getView(R.id.iv_dislike).setAlpha(Math.abs(ratio));
+        } else if (direction == CardConfig.SWIPING_RIGHT) {
+            ((BaseViewHolder) viewHolder).getView(R.id.iv_like).setAlpha(Math.abs(ratio));
+        } else {
+            ((BaseViewHolder) viewHolder).getView(R.id.iv_like).setAlpha(0);
+            ((BaseViewHolder) viewHolder).getView(R.id.iv_dislike).setAlpha(0);
+        }
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, Object o, int direction) {
+        viewHolder.itemView.setAlpha(1f);
+        ((BaseViewHolder) viewHolder).getView(R.id.iv_dislike).setAlpha(Math.abs(0f));
+        ((BaseViewHolder) viewHolder).getView(R.id.iv_like).setAlpha(Math.abs(0f));
+    }
+
+    @Override
+    public void onSwipedClear() {
+
     }
 }

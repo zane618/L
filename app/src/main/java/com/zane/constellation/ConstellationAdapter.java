@@ -22,5 +22,6 @@ public class ConstellationAdapter extends BaseQuickAdapter<ConstellationBean, Ba
     @Override
     protected void convert(BaseViewHolder holder, ConstellationBean constellationBean) {
         holder.setText(R.id.tv_name_constellation, constellationBean.name);
+        holder.addOnClickListener(R.id.tv_name_constellation);
     }
 }
