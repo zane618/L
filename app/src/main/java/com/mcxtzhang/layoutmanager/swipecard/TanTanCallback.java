@@ -1,4 +1,4 @@
-package com.zane.ui.tantan;
+package com.mcxtzhang.layoutmanager.swipecard;
 
 import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
@@ -7,14 +7,12 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.mcxtzhang.layoutmanager.swipecard.RenRenCallback;
 
 import java.util.List;
 
 import static com.mcxtzhang.layoutmanager.swipecard.CardConfig.MAX_SHOW_COUNT;
 import static com.mcxtzhang.layoutmanager.swipecard.CardConfig.SCALE_GAP;
 import static com.mcxtzhang.layoutmanager.swipecard.CardConfig.TRANS_Y_GAP;
-import static com.umeng.analytics.pro.x.R;
 
 /**
  * 介绍：探探效果定制的Callback

@@ -27,4 +27,8 @@ public class Urls {
     public static final String URL_HISTORY_TODAY_LIST = "http://v.juhe.cn/todayOnhistory/queryEvent.php?key=3ee4cb8470f2f2a4a97aaebaab1e73bc&date=";
     //历史上的今天详情
     public static final String URL_HISTORY_TODAY_DETAIL = "http://v.juhe.cn/todayOnhistory/queryDetail.php?key=3ee4cb8470f2f2a4a97aaebaab1e73bc&e_id=";
+
+
+    //星座运势(包含日、周、月、年
+    public static final String URL_CONSTELLATION_ALL = "http://web.juhe.cn:8080/constellation/getAll?key=16fca1c824662d7b57a3228c995c1429&type=today&consName=";
 }

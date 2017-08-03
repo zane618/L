@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 
+import com.zane.constellation.ConstellationFragment;
 import com.zane.l.R;
 import com.zane.todayhistory.FragmentHistoryToday;
 import com.zane.ui.adapter.HomeFragmentAdapter;
@@ -40,7 +41,7 @@ public class JokeFragment extends BaseFragment {
     private ViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private HomeFragmentAdapter adapter;
-    private static final String[] titleDatas = new String[]{"段子", "趣图","史上今日"};
+    private static final String[] titleDatas = new String[]{"段子", "趣图","史上今日","星座运势"};
     private Button test;
     public static int JokeFragmentCurrIndex;
 
@@ -54,9 +55,10 @@ public class JokeFragment extends BaseFragment {
         fragments.add(new JokeDzFragment());
         fragments.add(new JokeQtFragment());
         fragments.add(new FragmentHistoryToday());
+        fragments.add(new ConstellationFragment());
         adapter = new HomeFragmentAdapter(getChildFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
         initMagicIndicator(view);
         test = (Button) view.findViewById(R.id.test);
         test.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +144,8 @@ public class JokeFragment extends BaseFragment {
                     ((JokeQtFragment) fragments.get(1)).fuck();
                 } else if(position == 2){
                     ((FragmentHistoryToday) fragments.get(2)).fuck();
+                } else if (position == 3) {
+                    ((ConstellationFragment) fragments.get(3)).fuck();
                 }
             }
             @Override

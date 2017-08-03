@@ -24,6 +24,7 @@ public class RenRenCallback extends ItemTouchHelper.SimpleCallback {
     protected RecyclerView mRv;
     protected List mDatas;
     protected RecyclerView.Adapter mAdapter;
+    protected OnSwipedListener onSwipedListener;
 
     public RenRenCallback(RecyclerView rv, RecyclerView.Adapter adapter, List datas) {
         this(0,
@@ -39,6 +40,9 @@ public class RenRenCallback extends ItemTouchHelper.SimpleCallback {
         mDatas = datas;
     }
 
+    public void setOnSwipedListener(OnSwipedListener onSwipedListener) {
+        this.onSwipedListener = onSwipedListener;
+    }
     //水平方向是否可以被回收掉的阈值
     public float getThreshold(RecyclerView.ViewHolder viewHolder) {
         //2016 12 26 考虑 探探垂直上下方向滑动，不删除卡片，这里参照源码写死0.5f
@@ -58,7 +62,9 @@ public class RenRenCallback extends ItemTouchHelper.SimpleCallback {
         Object remove = mDatas.remove(viewHolder.getLayoutPosition());
         mDatas.add(0, remove);
         mAdapter.notifyDataSetChanged();
-
+        if (onSwipedListener != null) {
+            onSwipedListener.onSwiped();
+        }
 
     }
 
