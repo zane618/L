@@ -77,7 +77,7 @@ public class HistoryDetailActivity extends BaseFragmentActivity implements View.
     }
 
     private void loadInsertAd() {
-        if (0 != new Random().nextInt(3)) {
+        if (0 != new Random().nextInt(2)) {
             return;
         }
         ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY)

@@ -71,7 +71,7 @@ public class IflyAdManager extends BaseADManager {
             ad.setParameter(AdKeys.DOWNLOAD_ALERT, "false");
             ad.setParameter(AdKeys.INTERSTITIAL_BACKGROUD_COLOR, "#99000000");
             ad.setParameter(AdKeys.CUSTOM_BROSWER, "com.zane.ui.WebviewActivity");
-//            ad.setParameter(AdKeys.DEBUG_MODE, "true");
+            ad.setParameter(AdKeys.DEBUG_MODE, "true");
             final IFLYInterstitialAd finalAd = ad;
             ad.loadAd(new IFLYAdListener() {
                 @Override
@@ -82,7 +82,7 @@ public class IflyAdManager extends BaseADManager {
                 @Override
                 public void onAdFailed(AdError adError) {
                     if (l != null) {
-                        l.onAdsLoaded(false, null, null, BaseADManager.AD_PLATFORM_IFLY, null);
+//                        l.onAdsLoaded(false, null, null, BaseADManager.AD_PLATFORM_IFLY, null);
                     }
                 }
 
