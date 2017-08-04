@@ -25,7 +25,7 @@ public class SplashActivity extends BaseFragmentActivity {
     private Button btnJump;
     private LinearLayout adLayout;
     private BaseADManager adManager;
-
+    private static final String TAG = "SplashActivity";
     @Override
     public void setContentView() {
         setContentView(R.layout.activity_splash);
@@ -77,9 +77,10 @@ public class SplashActivity extends BaseFragmentActivity {
         countDownTimer.start();
     }
 
-    private CountDownTimer countDownTimer = new CountDownTimer(5000, 1000) {
+    private CountDownTimer countDownTimer = new CountDownTimer(5000 + 300, 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
+            L.e(TAG + millisUntilFinished);
             btnJump.setText("跳过(" + (millisUntilFinished / 1000 - 1) + "s)");
         }
 
@@ -104,5 +105,10 @@ public class SplashActivity extends BaseFragmentActivity {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
     }
 }
