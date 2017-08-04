@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.lzy.okgo.OkGo;
 import com.umeng.analytics.MobclickAgent;
+import com.zane.l.R;
 
 /**
  * Created by zane on 2017/1/9.
@@ -49,6 +51,18 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
     }
 
     @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        overridePendingTransition(R.anim.fade, R.anim.hold);
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        overridePendingTransition(R.anim.fade, R.anim.hold);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
@@ -57,6 +71,6 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        OkGo.getInstance().cancelAll();
+        OkGo.getInstance().cancelTag(this);
     }
 }

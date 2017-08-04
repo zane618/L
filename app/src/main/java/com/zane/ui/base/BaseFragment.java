@@ -3,6 +3,7 @@ package com.zane.ui.base;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,11 +13,13 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.lzy.okgo.OkGo;
+import com.zane.l.R;
 
 public abstract class BaseFragment extends Fragment {
 	protected Gson mGson;
 	protected Context mContext;
-	protected Activity activity;
+	protected Activity mActivity;
 	private ProgressDialog progressDialog = null;
 	protected View noDataView, errorView;
 
@@ -36,7 +39,7 @@ public abstract class BaseFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		this.activity = activity;
+		this.mActivity = activity;
 	}
 
 	@Nullable
@@ -51,7 +54,7 @@ public abstract class BaseFragment extends Fragment {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-//		OkGo.getInstance().cancelTag(this);
+		OkGo.getInstance().cancelTag(this);
 	}
 
 	//显示progressdialog
@@ -74,5 +77,15 @@ public abstract class BaseFragment extends Fragment {
 		}
 	}
 
+	@Override
+	public void startActivity(Intent intent) {
+		super.startActivity(intent);
+		mActivity.overridePendingTransition(R.anim.fade, R.anim.hold);
+	}
 
+	@Override
+	public void startActivityForResult(Intent intent, int requestCode) {
+		super.startActivityForResult(intent, requestCode);
+		mActivity.overridePendingTransition(R.anim.fade, R.anim.hold);
+	}
 }
