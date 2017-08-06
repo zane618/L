@@ -11,11 +11,17 @@ import java.io.Serializable;
 
 public class ConstellationBean implements Serializable {
     @Expose
-    public String name;
+    public String name;//星座名
     @Expose
-    public String datetime;
+    public String datetime;//日，时间
     @Expose
-    public String all;
+    public String date;//月，时间
+    @Expose
+    public String job;//周，求职
+    @Expose
+    public String weekth;//周
+    @Expose
+    public String all;//概况
     @Expose
     public String color;
     @Expose
@@ -34,4 +40,6 @@ public class ConstellationBean implements Serializable {
     public String work;
     @Expose
     public int error_code;
+
+    public String birth;
 }

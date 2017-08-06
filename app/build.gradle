@@ -36,17 +36,17 @@ android {
     //多渠道
     productFlavors {
 //        mytest{}
-//        yingyongbao {}
+        yingyongbao {}
         ali {}
-//        wandoujia {}
-//        baidu {}
-//        _360 {}
-//        _91 {}
-//        anzhuo {}
-//        uc {}
-//        huawei {}
-//        vivo {}
-//        xiaomi {}
+        wandoujia {}
+        baidu {}
+        _360 {}
+        _91 {}
+        anzhuo {}
+        uc {}
+        huawei {}
+        vivo {}
+        xiaomi {}
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }

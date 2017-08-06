@@ -1,23 +1,37 @@
 package com.zane.ui;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.zane.ads.ADManagerFactory;
 import com.zane.ads.BaseADManager;
 import com.zane.ads.OnAdsListener;
+import com.zane.constellation.ConstellationFragment;
 import com.zane.l.R;
 import com.zane.ui.adapter.HomeFragmentAdapter;
 import com.zane.ui.base.BaseFragmentActivity;
 import com.zane.ui.fragment.JokeFragment;
 import com.zane.utility.L;
 import com.zane.utility.ToastUtils;
+
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,14 +47,13 @@ import static android.R.attr.action;
  */
 
 public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPager.OnPageChangeListener, OnAdsListener{
+    private static final String[] CHANNELS = new String[]{"笑哈", "星座"};
+    private static final int[] IMGS_SEL = new int[]{R.drawable.bottom_1_sel, R.drawable.bottom_2_sel};
+    private static final int[] IMGS_NOL = new int[]{R.drawable.bottom_1_nol, R.drawable.bottom_2_nol};
     private static final String TAG = "HomeFragmentActivity";
     private ViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private HomeFragmentAdapter homeFragmentAdapter;
-    private RadioGroup radioGroup;
-    private int lastBottomId = R.id.rb_1;
-    private Map<Integer, RadioButton> bottoms = new HashMap<>();
-    private Map<Integer, Integer> bottomKeys = new HashMap<>();
     private int currIndex;
     private BaseADManager exitAdManager;
     private ViewGroup adLayout;
@@ -54,19 +67,6 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
     public void initView() {
         adLayout = (ViewGroup) findViewById(R.id.ad_layout);
         initViewpager();
-        radioGroup = (RadioGroup) findViewById(R.id.radio_group);
-        bottoms.put(R.id.rb_1, (RadioButton) findViewById(R.id.rb_1));
-        bottoms.put(R.id.rb_2, (RadioButton) findViewById(R.id.rb_2));
-        bottoms.put(R.id.rb_3, (RadioButton) findViewById(R.id.rb_3));
-        bottomKeys.put(0, R.id.rb_1);
-        bottomKeys.put(1, R.id.rb_2);
-        bottomKeys.put(2, R.id.rb_3);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                radioChangeAnimation(checkedId);
-            }
-        });
         appUpdate();
 /*
         ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY)
@@ -92,11 +92,11 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
         jokeFragment.setArguments(bJoke);
         fragments.add(jokeFragment);
 
-//        Bundle bConstellation = new Bundle();
-//        bConstellation.putString("key", "");
-//        Fragment constellationFragment = new ConstellationFragment();
-//        constellationFragment.setArguments(bConstellation);
-//        fragments.add(constellationFragment);
+        Bundle bConstellation = new Bundle();
+        bConstellation.putString("key", "");
+        Fragment constellationFragment = new ConstellationFragment();
+        constellationFragment.setArguments(bConstellation);
+        fragments.add(constellationFragment);
 //
 //        Bundle bTinhistory = new Bundle();
 //        bTinhistory.putString("key", "");
@@ -107,6 +107,7 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
         homeFragmentAdapter = new HomeFragmentAdapter(getSupportFragmentManager(), fragments);
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(homeFragmentAdapter);
+        initMagicIndicator();
         viewPager.addOnPageChangeListener(this);
         exitAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
     }
@@ -118,7 +119,6 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
 
     @Override
     public void onPageSelected(int position) {
-        bottoms.get(bottomKeys.get(position)).setChecked(true);
     }
 
     @Override
@@ -126,16 +126,6 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
 
     }
 
-    private void radioChangeAnimation(int checkedId) {
-        L.e(TAG + ":radioChangeAnimation");
-        if (checkedId != lastBottomId) {
-            bottoms.get(lastBottomId).setTextColor(getResources().getColor(R.color.c_content));
-            bottoms.get(checkedId).setTextColor(getResources().getColor(R.color.black));
-            lastBottomId = checkedId;
-            currIndex = Integer.parseInt((bottoms.get(checkedId)).getTag().toString());
-            viewPager.setCurrentItem(currIndex);
-        }
-    }
     private void appUpdate() {
         BmobUpdateAgent.update(this);
     }
@@ -173,5 +163,77 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
     protected void onDestroy() {
         super.onDestroy();
         ADManagerFactory.onAppExit(this);
+    }
+    private void initMagicIndicator() {
+        MagicIndicator magicIndicator = (MagicIndicator) findViewById(R.id.magic_indicator1);
+        magicIndicator.setBackgroundColor(Color.BLACK);
+        CommonNavigator commonNavigator = new CommonNavigator(this);
+        commonNavigator.setAdjustMode(true);
+        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
+
+            @Override
+            public int getCount() {
+                return IMGS_SEL.length;
+            }
+
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                CommonPagerTitleView commonPagerTitleView = new CommonPagerTitleView(context);
+
+                // load custom layout
+                View customLayout = LayoutInflater.from(context).inflate(R.layout.simple_pager_title_layout, null);
+                final ImageView titleImg = (ImageView) customLayout.findViewById(R.id.title_img);
+                final TextView titleText = (TextView) customLayout.findViewById(R.id.title_text);
+                titleImg.setImageResource(IMGS_SEL[index]);
+                titleText.setText(CHANNELS[index]);
+                commonPagerTitleView.setContentView(customLayout);
+
+                commonPagerTitleView.setOnPagerTitleChangeListener(new CommonPagerTitleView.OnPagerTitleChangeListener() {
+
+                    @Override
+                    public void onSelected(int index, int totalCount) {
+                        titleText.setTextColor(Color.parseColor("#03A9F5"));
+                        titleImg.setImageResource(IMGS_SEL[index]);
+                         if (index == 1) {
+                            ((ConstellationFragment) fragments.get(1)).fuck();
+                        }
+                    }
+
+                    @Override
+                    public void onDeselected(int index, int totalCount) {
+                        titleText.setTextColor(Color.parseColor("#8a8a8a"));
+                        titleImg.setImageResource(IMGS_NOL[index]);
+                    }
+
+                    @Override
+                    public void onLeave(int index, int totalCount, float leavePercent, boolean leftToRight) {
+//                        titleImg.setScaleX(1.3f + (0.8f - 1.3f) * leavePercent);
+//                        titleImg.setScaleY(1.3f + (0.8f - 1.3f) * leavePercent);
+                    }
+
+                    @Override
+                    public void onEnter(int index, int totalCount, float enterPercent, boolean leftToRight) {
+//                        titleImg.setScaleX(0.8f + (1.3f - 0.8f) * enterPercent);
+//                        titleImg.setScaleY(0.8f + (1.3f - 0.8f) * enterPercent);
+                    }
+                });
+
+                commonPagerTitleView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        viewPager.setCurrentItem(index);
+                    }
+                });
+
+                return commonPagerTitleView;
+            }
+
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                return null;
+            }
+        });
+        magicIndicator.setNavigator(commonNavigator);
+        ViewPagerHelper.bind(magicIndicator, viewPager);
     }
 }

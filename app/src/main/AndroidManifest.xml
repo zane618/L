@@ -43,6 +43,10 @@
         <activity android:name="com.zane.todayhistory.HistoryDetailActivity"
             android:theme="@style/ImageFragmentTheme"
             android:configChanges="orientation|screenSize"/>
+        <!--星座详情界面-->
+        <activity android:name="com.zane.constellation.ConsDetailActivity"
+            android:theme="@style/ImageFragmentTheme"
+            android:configChanges="orientation|screenSize"/>
         <!--图片缩放activity-->
         <activity android:name="com.zane.ui.ImageFragmentActivity"
             android:theme="@style/ImageFragmentTheme"

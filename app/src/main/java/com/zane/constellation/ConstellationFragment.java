@@ -1,5 +1,6 @@
 package com.zane.constellation;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -36,7 +37,7 @@ public class ConstellationFragment extends BaseFragment implements SwipeRefreshL
     private RecyclerView recyclerView;
     private ConstellationAdapter adapter;
     private List<ConstellationBean> datas = new ArrayList<>();
-    private String[] constellations = new String[]{"白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "魔羯座", "水瓶座", "双鱼座"};
+    private String[] constellations = new String[]{"白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座"};
     private int success;
     private int error;
     private boolean firstFlag = true;
@@ -85,9 +86,10 @@ public class ConstellationFragment extends BaseFragment implements SwipeRefreshL
             success = 0;
             error = 0;
             datas.clear();
+            adapter.notifyDataSetChanged();
         }
         for (int i = 0; i < 12; i++) {
-            OkGo.<String>get(Urls.URL_CONSTELLATION_ALL + constellations[i])
+            OkGo.<String>get(Urls.URL_CONSTELLATION_DAY + constellations[i])
                     .tag(this)
                     .execute(new StringCallback() {
                         @Override
@@ -155,6 +157,11 @@ public class ConstellationFragment extends BaseFragment implements SwipeRefreshL
         viewHolder.itemView.setAlpha(1f);
         ((BaseViewHolder) viewHolder).getView(R.id.iv_dislike).setAlpha(Math.abs(0f));
         ((BaseViewHolder) viewHolder).getView(R.id.iv_like).setAlpha(Math.abs(0f));
+        if (direction == CardConfig.SWIPING_LEFT) {
+            Intent intent = new Intent(mContext, ConsDetailActivity.class);
+            intent.putExtra(ConsDetailActivity.BEAN_KEY, (ConstellationBean) o);
+            startActivity(intent);
+        }
     }
 
     @Override

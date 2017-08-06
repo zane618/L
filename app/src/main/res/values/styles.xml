@@ -25,4 +25,11 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
     </style>
+    <style name="myRatingBar">
+        <item name="android:progressDrawable">@drawable/hh</item>
+        <!--<item name="android:minHeight">32px</item>-->
+        <!--<item name="android:maxHeight">32px</item>-->
+        <item name="android:thumb">@null</item>
+        <item name="android:isIndicator">true</item>
+    </style>
 </resources>

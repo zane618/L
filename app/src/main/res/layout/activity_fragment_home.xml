@@ -12,64 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#d8d8d8"/>
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/magic_indicator1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/top_bg"/>
     <LinearLayout
         android:id="@+id/ad_layout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="vertical"
         android:visibility="gone"></LinearLayout>
-    <RadioGroup
-        android:id="@+id/radio_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:background="#f6f6f6"
-        android:orientation="horizontal">
-        <RadioButton
-            android:id="@+id/rb_1"
-            android:tag="0"
-            android:checked="true"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:textSize="12sp"
-            android:drawableTop="@drawable/home_bottom_yi"
-            android:drawablePadding="2dp"
-            android:button="@null"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:text="笑段子"/>
-        <RadioButton
-            android:id="@+id/rb_2"
-            android:tag="1"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:textSize="12sp"
-            android:drawableTop="@drawable/home_bottom_er"
-            android:drawablePadding="2dp"
-            android:button="@null"
-            android:gravity="center"
-            android:textColor="@color/c_content"
-            android:text="星座"/>
-        <RadioButton
-            android:id="@+id/rb_3"
-            android:tag="2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:textSize="12sp"
-            android:drawableTop="@drawable/home_bottom_san"
-            android:drawablePadding="2dp"
-            android:button="@null"
-            android:gravity="center"
-            android:textColor="@color/c_content"
-            android:text="历史上的today"/>
-    </RadioGroup>
 </LinearLayout>

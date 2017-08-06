@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.zane.constellation.ConstellationFragment;
 import com.zane.l.R;
+import com.zane.neihan.NeihanDzFragment;
 import com.zane.todayhistory.FragmentHistoryToday;
 import com.zane.ui.adapter.HomeFragmentAdapter;
 import com.zane.ui.base.BaseFragment;
@@ -41,7 +42,7 @@ public class JokeFragment extends BaseFragment {
     private ViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private HomeFragmentAdapter adapter;
-    private static final String[] titleDatas = new String[]{"段子", "趣图","史上今日","星座运势"};
+    private static final String[] titleDatas = new String[]{"最新段子", "经典段子","史上今日","经典趣图"};
     private Button test;
     public static int JokeFragmentCurrIndex;
 
@@ -52,10 +53,10 @@ public class JokeFragment extends BaseFragment {
 
     private void initViewpager(View view) {
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        fragments.add(new NeihanDzFragment());
         fragments.add(new JokeDzFragment());
-        fragments.add(new JokeQtFragment());
         fragments.add(new FragmentHistoryToday());
-        fragments.add(new ConstellationFragment());
+        fragments.add(new JokeQtFragment());
         adapter = new HomeFragmentAdapter(getChildFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(4);
@@ -140,12 +141,10 @@ public class JokeFragment extends BaseFragment {
             public void onPageSelected(int position) {
                 JokeFragmentCurrIndex = position;
                 magicIndicator.onPageSelected(position);
-                if (position == 1) {
-                    ((JokeQtFragment) fragments.get(1)).fuck();
-                } else if(position == 2){
+                if(position == 2){
                     ((FragmentHistoryToday) fragments.get(2)).fuck();
                 } else if (position == 3) {
-                    ((ConstellationFragment) fragments.get(3)).fuck();
+                    ((JokeQtFragment) fragments.get(3)).fuck();
                 }
             }
             @Override

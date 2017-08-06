@@ -7,6 +7,8 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="main_color">#03A9F5</color>
+    <color name="bottom_bg">#f6f6f6</color>
+    <color name="top_bg">#f6f6f6</color>
 
     <color name="bg">#F0F5F9</color>
     <color name="c_line">#C9D6DE</color>
@@ -17,4 +19,6 @@
 
     <color name="super_light_grey">#FAFAFA</color>
     <color name="line_grey">#D7D7D7</color>
+    <!--星座-->
+    <color name="constellation_txt">#7AD1D8</color>
 </resources>
