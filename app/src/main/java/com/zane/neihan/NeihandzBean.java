@@ -1,5 +1,7 @@
 package com.zane.neihan;
 
+import android.view.View;
+
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
@@ -28,6 +30,8 @@ public class NeihandzBean implements Serializable {
         public int type; // == 1 段子
         @Expose
         public Group group;
+        public int layoutType = 0;
+        public View adView;
     }
 
     public static class Group implements Serializable {
