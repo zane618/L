@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
@@ -41,7 +42,7 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
     private List<NeihandzBean.MDataItem> datas = new ArrayList<>();
     private BaseADManager adManager;
     private String min_time = "1502008860"; //上次更新的时间
-
+    private int page;
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         initVs(view);
@@ -72,9 +73,9 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
             }
         });
         adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
-//        if (adManager != null) {
-//            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
-//        }
+        if (adManager != null) {
+            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
+        }
         getDataRand(true);
     }
     /**
@@ -95,6 +96,7 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
                                 }
                                 adapter.addData(list);
                                 adapter.loadMoreComplete();
+                                page ++;
                             }
                         }
                     }
@@ -126,25 +128,44 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
 
     @Override
     public void onRefresh() {
+        page = 1;
         adapter.setEnableLoadMore(false);
         getDataRand(true);
-//        if (adManager != null) {
-//            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
-//        }
     }
 
     @Override
     public void onLoadMoreRequested() {
+        if (page % 2 == 0 && adManager != null) {
+            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE ,this);
+        }
         swLayout.setEnabled(false);//加载更多，就不能下拉刷新
         getDataRand(false);
     }
-    private View adView;
     @Override
     public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
         if (success) {
-            this.adView = adView;
+            int size = datas.size();
+            if (size < 10) {
+                return;
+            }
+            NeihandzBean.MDataItem item = new NeihandzBean.MDataItem();
+            item.adView = adView;
+            datas.add(size - 5, item);
+            adapter.notifyItemInserted(size - 5);
+            adapter.notifyItemRangeChanged(size- 5, size - 5 - 1);
         } else {
-            this.adView = null;
+            int size = datas.size();
+            if (size < 10) {
+                return;
+            }
+            ImageView imageView = new ImageView(mContext);
+            imageView.setImageResource(R.drawable.img_like);
+            NeihandzBean.MDataItem item = new NeihandzBean.MDataItem();
+            item.adView = imageView;
+            item.layoutType = 1;
+            datas.add(size - 5, item);
+            adapter.notifyItemInserted(size- 5);
+            adapter.notifyItemRangeChanged(size- 5, size - 5 - 1);
         }
     }
 }

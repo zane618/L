@@ -2,11 +2,13 @@ package com.zane.ui.jokefragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
@@ -77,9 +79,9 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
             }
         });
         adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
-//        if (adManager != null) {
-//            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
-//        }
+        if (adManager != null) {
+            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
+        }
         doBrowseType(true);
     }
 
@@ -157,9 +159,9 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
                                     datas.clear();
 //                                    adapter.notifyItemRangeRemoved(0, size);
                                     adapter.notifyDataSetChanged();
-                                    if (adView != null) {
-                                        datas.add(new JokeDzBean.MData("a", "a", 1, adView));
-                                    }
+//                                    if (adView != null) {
+//                                        datas.add(new JokeDzBean.MData("a", "a", 1, adView));
+//                                    }
                                 }
                                 adapter.addData(list);
                                 if (list.size() == Urls.PAGESIZE) {
@@ -243,30 +245,44 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
-        L.e(TAG+ ":onRefresh");
+        if (adManager != null) {
+            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE ,this);
+        }
         adapter.setEnableLoadMore(false);
         page = 1;
-//        if (adManager != null) {
-//            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
-//        }
         doBrowseType(true);
     }
 
     @Override
     public void onLoadMoreRequested() {
-        L.e(TAG+ ":onLoadMoreRequested");
+        if (page % 4 == 0 && adManager != null) {
+            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE ,this);
+        }
         swLayout.setEnabled(false);//加载更多，就不能下拉刷新
         doBrowseType(false);
     }
-    private View adView;
     @Override
     public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
         if (success) {
-            this.adView = adView;
-            doBrowseType(true);
+            int size = datas.size();
+            if (size < 10) {
+                return;
+            }
+            JokeDzBean.MData adData = new JokeDzBean.MData(null, null, 1, adView);
+            datas.add(size - 5, adData);
+            adapter.notifyItemInserted(size- 5);
+            adapter.notifyItemRangeChanged(size- 5, size - 5 - 1);
         } else {
-            this.adView = null;
-            doBrowseType(true);
+            int size = datas.size();
+            if (size < 10) {
+                return;
+            }
+            ImageView imageView = new ImageView(mContext);
+            imageView.setImageResource(R.drawable.img_like);
+            JokeDzBean.MData adData = new JokeDzBean.MData(null, null, 1, imageView);
+            datas.add(size - 5, adData);
+            adapter.notifyItemInserted(size- 5);
+            adapter.notifyItemRangeChanged(size- 5, size - 5 - 1);
         }
     }
 }
