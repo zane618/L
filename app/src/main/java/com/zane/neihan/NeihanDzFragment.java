@@ -28,6 +28,7 @@ import com.zane.utility.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static android.R.id.list;
 
@@ -40,7 +41,7 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
     private RecyclerView recyclerView;
     private NeihanDzAdapter adapter;
     private List<NeihandzBean.MDataItem> datas = new ArrayList<>();
-    private BaseADManager adManager;
+//    private BaseADManager adManager;
     private String min_time = "1502008860"; //上次更新的时间
     private int page;
     @Override
@@ -72,10 +73,10 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
                 swLayout.setRefreshing(true);
             }
         });
-        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
-        if (adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
-        }
+//        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
+//        if (adManager != null) {
+//            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
+//        }
         getDataRand(true);
     }
     /**
@@ -112,10 +113,10 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
                         super.onFinish();
                         if (isRefresh) {
                             swLayout.setRefreshing(false);
-                            adapter.setEnableLoadMore(true);
                         } else {
                             swLayout.setEnabled(true);
                         }
+                        adapter.setEnableLoadMore(true);
                     }
                 });
     }
@@ -135,9 +136,9 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
 
     @Override
     public void onLoadMoreRequested() {
-        if (page % 2 == 0 && adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE ,this);
-        }
+//        if (page % 2 == 0 && adManager != null) {
+//            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE ,this);
+//        }
         swLayout.setEnabled(false);//加载更多，就不能下拉刷新
         getDataRand(false);
     }
@@ -150,9 +151,10 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
             }
             NeihandzBean.MDataItem item = new NeihandzBean.MDataItem();
             item.adView = adView;
-            datas.add(size - 5, item);
-            adapter.notifyItemInserted(size - 5);
-            adapter.notifyItemRangeChanged(size- 5, size - 5 - 1);
+            int insetPosition = new Random().nextInt(6);
+            datas.add(size - insetPosition, item);
+            adapter.notifyItemInserted(size - insetPosition);
+            adapter.notifyItemRangeChanged(size- insetPosition, size - insetPosition - 1);
         } else {
             int size = datas.size();
             if (size < 10) {

@@ -162,10 +162,10 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
                         super.onFinish();
                         if (isRefresh) {
                             swLayout.setRefreshing(false);
-                            adapter.setEnableLoadMore(true);
                         } else {
                             swLayout.setEnabled(true);
                         }
+                        adapter.setEnableLoadMore(true);
                     }
                 });
     }

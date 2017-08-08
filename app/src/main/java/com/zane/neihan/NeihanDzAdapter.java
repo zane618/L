@@ -40,9 +40,11 @@ public class NeihanDzAdapter extends BaseQuickAdapter<NeihandzBean.MDataItem, Ba
                 }
                 break;
             case 1:
-                ViewGroup viewGroup = helper.getView(R.id.view_group);
-                viewGroup.removeAllViews();
-                viewGroup.addView(item.adView);
+                if (item.adView.getParent() != null) {
+                    ViewGroup viewGroup = helper.getView(R.id.view_group);
+                    viewGroup.removeAllViews();
+                    viewGroup.addView(item.adView);
+                }
                 break;
         }
 

@@ -47,7 +47,7 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
     private String time;//时间戳
     private String sort;
     private int browseType = 0;//浏览类型(包含时间前、后
-    private BaseADManager adManager;
+//    private BaseADManager adManager;
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
@@ -78,10 +78,10 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
                 swLayout.setRefreshing(true);
             }
         });
-        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
-        if (adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
-        }
+//        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
+//        if (adManager != null) {
+//            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
+//        }
         doBrowseType(true);
     }
 
@@ -189,10 +189,10 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
                         super.onFinish();
                         if (isRefresh) {
                             swLayout.setRefreshing(false);
-                            adapter.setEnableLoadMore(true);
                         } else {
                             swLayout.setEnabled(true);
                         }
+                        adapter.setEnableLoadMore(true);
                     }
                 });
     }
@@ -245,9 +245,9 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
-        if (adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE ,this);
-        }
+//        if (adManager != null) {
+//            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE ,this);
+//        }
         adapter.setEnableLoadMore(false);
         page = 1;
         doBrowseType(true);
@@ -255,9 +255,9 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onLoadMoreRequested() {
-        if (page % 4 == 0 && adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE ,this);
-        }
+//        if (page % 4 == 0 && adManager != null) {
+//            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE ,this);
+//        }
         swLayout.setEnabled(false);//加载更多，就不能下拉刷新
         doBrowseType(false);
     }
