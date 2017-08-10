@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
@@ -47,7 +48,7 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
     private String time;//时间戳
     private String sort;
     private int browseType = 0;//浏览类型(包含时间前、后
-//    private BaseADManager adManager;
+    private BaseADManager adManager;
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
@@ -69,7 +70,14 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                ToastUtils.showToast(mContext, "click:" + position);
+            }
+        });
+        adapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                ToastUtils.showToast(mContext, "longClick:" + i);
+                return true;
             }
         });
         swLayout.post(new Runnable() {
@@ -78,10 +86,10 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
                 swLayout.setRefreshing(true);
             }
         });
-//        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
-//        if (adManager != null) {
-//            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
-//        }
+        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
+        if (adManager != null) {
+            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
+        }
         doBrowseType(true);
     }
 
@@ -245,9 +253,9 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
-//        if (adManager != null) {
-//            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE ,this);
-//        }
+        if (adManager != null) {
+            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE ,this);
+        }
         adapter.setEnableLoadMore(false);
         page = 1;
         doBrowseType(true);
@@ -255,9 +263,9 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onLoadMoreRequested() {
-//        if (page % 4 == 0 && adManager != null) {
-//            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE ,this);
-//        }
+        if (/*page % 2 == 0 && */adManager != null) {
+            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE ,this);
+        }
         swLayout.setEnabled(false);//加载更多，就不能下拉刷新
         doBrowseType(false);
     }
@@ -271,18 +279,6 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
             JokeDzBean.MData adData = new JokeDzBean.MData(null, null, 1, adView);
             datas.add(size - 5, adData);
             adapter.notifyItemInserted(size- 5);
-            adapter.notifyItemRangeChanged(size- 5, size - 5 - 1);
-        } else {
-            int size = datas.size();
-            if (size < 10) {
-                return;
-            }
-            ImageView imageView = new ImageView(mContext);
-            imageView.setImageResource(R.drawable.img_like);
-            JokeDzBean.MData adData = new JokeDzBean.MData(null, null, 1, imageView);
-            datas.add(size - 5, adData);
-            adapter.notifyItemInserted(size- 5);
-            adapter.notifyItemRangeChanged(size- 5, size - 5 - 1);
         }
     }
 }

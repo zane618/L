@@ -51,7 +51,7 @@ public class IflyAdManager extends BaseADManager {
             case BaseADManager.ID_QT_NATIVE:
                 mQtAd = new IFLYNativeAd(context, context.getString(R.string.exit_qthead_ad_id), new NativeListener(context, adPositin, onAdsListener));
                 mQtAd.setParameter(AdKeys.CUSTOM_BROSWER, "com.zane.ui.WebviewActivity");
-//                mQtAd.setParameter(AdKeys.DEBUG_MODE, "true");
+                mQtAd.setParameter(AdKeys.DEBUG_MODE, "true");
                 mQtAd.loadAd(count);
                 break;
         }
