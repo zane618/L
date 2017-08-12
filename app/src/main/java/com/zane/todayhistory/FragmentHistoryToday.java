@@ -18,6 +18,7 @@ import com.zane.apis.Urls;
 import com.zane.l.R;
 import com.zane.ui.base.BaseFragment;
 import com.zane.util.CatchLinearLayoutManager;
+import com.zane.utility.ClipboardHelper;
 import com.zane.utility.ToastUtils;
 
 import java.util.ArrayList;
@@ -60,14 +61,21 @@ public class FragmentHistoryToday extends BaseFragment implements SwipeRefreshLa
                 startActivity(intent);
             }
         });
-
+        adapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                ClipboardHelper.copyText(mContext, datas.get(i).date + "，" + datas.get(i).title);
+                ToastUtils.showToast(mContext, "已复制到剪切板");
+                return true;
+            }
+        });
         Calendar calendar = Calendar.getInstance();
         month = calendar.get(Calendar.MONTH) + 1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
 //        getData();
     }
     public void fuck() {
-        if (firstFlag) {
+        if (firstFlag && swLayout != null) {
             swLayout.post(new Runnable() {
                 @Override
                 public void run() {
@@ -75,8 +83,8 @@ public class FragmentHistoryToday extends BaseFragment implements SwipeRefreshLa
                 }
             });
             firstFlag = false;
-            getData();
         }
+        getData();
     }
     /**
      * 获取列表数据

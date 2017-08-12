@@ -23,6 +23,7 @@ import com.zane.l.R;
 import com.zane.ui.base.BaseFragment;
 import com.zane.ui.jokefragment.AdapterJokeDz;
 import com.zane.util.CatchLinearLayoutManager;
+import com.zane.utility.ClipboardHelper;
 import com.zane.utility.L;
 import com.zane.utility.ToastUtils;
 
@@ -61,10 +62,20 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
 //        recyclerView.addItemDecoration(new RecycleViewDivider(mContext, LinearLayoutManager.HORIZONTAL, 10, mContext.getResources().getColor(R.color.bg)));
         recyclerView.setAdapter(adapter);
         adapter.disableLoadMoreIfNotFullPage();//这个去除第一次回调加载更多方法,超过一屏无须
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//
+//            }
+//        });
+        adapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+            public boolean onItemLongClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                if (datas.get(i).type == 1 && datas.get(i).group != null) {
+                    ClipboardHelper.copyText(mContext, datas.get(i).group.content);
+                    ToastUtils.showToast(mContext, "已复制到剪切板");
+                }
+                return true;
             }
         });
         swLayout.post(new Runnable() {

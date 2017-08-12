@@ -38,13 +38,6 @@ public class AdapterJokeDz extends BaseQuickAdapter<JokeDzBean.MData, BaseViewHo
 
         switch (helper.getItemViewType()) {
             case 0:
-/*
-                if (item.updatetime == null) {
-                    helper.setText(R.id.tv_time, item.unixtime);
-                } else {
-                    helper.setText(R.id.tv_time, item.updatetime);
-                }
-*/
                 helper.setText(R.id.tv_time, item.content.substring(0, 7));
                 helper.setText(R.id.tv_content, item.content);
                 break;

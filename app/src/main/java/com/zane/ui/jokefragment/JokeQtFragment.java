@@ -99,7 +99,7 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
 //        doBrowseType(true);
     }
     public void fuck() {
-        if (firstFlag) {
+        if (firstFlag && swLayout != null) {
             swLayout.post(new Runnable() {
                 @Override
                 public void run() {
@@ -110,8 +110,8 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
 //            if (adManager != null) {
 //                adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
 //            }
-            doBrowseType(true);
         }
+        doBrowseType(true);
     }
     /**
      * 看最新
