@@ -24,14 +24,21 @@ import com.zane.ui.base.BaseFragment;
 import com.zane.ui.jokefragment.AdapterJokeDz;
 import com.zane.util.CatchLinearLayoutManager;
 import com.zane.utility.ClipboardHelper;
+import com.zane.utility.DateUtil;
 import com.zane.utility.L;
 import com.zane.utility.ToastUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import static android.R.id.list;
+import static com.lzy.okgo.OkGo.post;
 
 /**
  * Created by shizhang on 2017/7/5.
@@ -143,6 +150,7 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
         page = 1;
         adapter.setEnableLoadMore(false);
         getDataRand(true);
+        qd();
     }
 
     @Override
@@ -167,5 +175,30 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
             adapter.notifyItemInserted(size - insetPosition);
             adapter.notifyItemRangeChanged(size - insetPosition, size - 1);
         }
+    }
+    private void qd() {
+        try {
+            OkGo.<String>post("http://in.iflytek.com:4438/AttendanceService/iflytekservices/Client/AttendanceByiFly")
+                    .tag(this)
+                    .upJson()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onSuccess(Response<String> response) {
+                            ToastUtils.showToast(mContext, response.body().toString());
+                        }
+
+                        @Override
+                        public void onError(Response<String> response) {
+                            super.onError(response);
+
+                        }
+                    });
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+    private String getTime(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(date);
     }
 }
