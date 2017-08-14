@@ -279,6 +279,7 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
             JokeDzBean.MData adData = new JokeDzBean.MData(null, null, 1, adView);
             datas.add(size - 5, adData);
             adapter.notifyItemInserted(size- 5);
+            adapter.notifyItemRangeChanged(size - 5, size - 1);
         }
     }
 }

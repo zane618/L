@@ -165,6 +165,7 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
             int insetPosition = new Random().nextInt(6);
             datas.add(size - insetPosition, item);
             adapter.notifyItemInserted(size - insetPosition);
+            adapter.notifyItemRangeChanged(size - insetPosition, size - 1);
         }
     }
 }
