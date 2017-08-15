@@ -10,9 +10,12 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.zane.Qd;
 import com.zane.ads.ADManagerFactory;
 import com.zane.ads.BaseADManager;
 import com.zane.ads.OnAdsListener;
@@ -176,11 +179,19 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
             adapter.notifyItemRangeChanged(size - insetPosition, size - 1);
         }
     }
+
+    private Gson gson;
     private void qd() {
-        try {
+        if (gson == null) {
+            gson = new GsonBuilder().disableHtmlEscaping().create();
+        }
+        Qd q = new Qd();
+        q.TimeStamp = "1502758495811";
+//        q.TimeStamp = System.currentTimeMillis() + "";
+        String json = gson.toJson(q);
             OkGo.<String>post("http://in.iflytek.com:4438/AttendanceService/iflytekservices/Client/AttendanceByiFly")
                     .tag(this)
-                    .upJson()
+                    .upJson(json)
                     .execute(new StringCallback() {
                         @Override
                         public void onSuccess(Response<String> response) {
@@ -190,15 +201,7 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
                         @Override
                         public void onError(Response<String> response) {
                             super.onError(response);
-
                         }
                     });
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-    private String getTime(Date date) {//可根据需要自行截取数据显示
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return format.format(date);
     }
 }
