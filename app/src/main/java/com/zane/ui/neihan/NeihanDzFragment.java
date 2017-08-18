@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.azhon.suspensionfab.SuspensionFab;
@@ -37,7 +38,7 @@ import java.util.Random;
  */
 
 public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener, OnAdsListener, DireRecyclerview.OnDireChanged{
+        BaseQuickAdapter.RequestLoadMoreListener, OnAdsListener, DireRecyclerview.OnDireChanged ,View.OnClickListener{
     private SwipeRefreshLayout swLayout;
     private DireRecyclerview recyclerView;
     private NeihanDzAdapter adapter;
@@ -58,7 +59,14 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
         swLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         recyclerView = (DireRecyclerview) view.findViewById(R.id.recyler_view);
         ivBackTop = (ImageView) view.findViewById(R.id.iv_back_top);
-        sfbHeitht = DensityUtils.dp2px(mContext, 15) + ivBackTop.getHeight();
+        ViewTreeObserver vot = ivBackTop.getViewTreeObserver();
+        vot.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                sfbHeitht = DensityUtils.dp2px(mContext, 15) + ivBackTop.getHeight();
+            }
+        });
+        ivBackTop.setOnClickListener(this);
         recyclerView.setLayoutManager(new CatchLinearLayoutManager(mContext));
         recyclerView.setOnDireChanged(this);
         ((SimpleItemAnimator)recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);//去掉只要设置为false，就可以不显示动画了，也就解决了闪烁问题。 （所有的notifyItem*动画都取消了）
@@ -177,5 +185,14 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
     @Override
     public void onHide() {
         hideFloatBtn(ivBackTop, sfbHeitht);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_back_top:
+                    recyclerView.smoothScrollToPosition(0);
+                break;
+        }
     }
 }
