@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.azhon.suspensionfab.SuspensionFab;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -44,7 +45,7 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
     private BaseADManager adManager;
     private String min_time = "1502008860"; //上次更新的时间
     private int page;
-    private SuspensionFab sfb;
+    private ImageView ivBackTop;
     public static int sfbHeitht;
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
@@ -56,8 +57,8 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
         swLayout.setOnRefreshListener(this);
         swLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         recyclerView = (DireRecyclerview) view.findViewById(R.id.recyler_view);
-        sfb = (SuspensionFab) view.findViewById(R.id.sfb);
-        sfbHeitht = DensityUtils.dp2px(mContext, 60);
+        ivBackTop = (ImageView) view.findViewById(R.id.iv_back_top);
+        sfbHeitht = DensityUtils.dp2px(mContext, 15) + ivBackTop.getHeight();
         recyclerView.setLayoutManager(new CatchLinearLayoutManager(mContext));
         recyclerView.setOnDireChanged(this);
         ((SimpleItemAnimator)recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);//去掉只要设置为false，就可以不显示动画了，也就解决了闪烁问题。 （所有的notifyItem*动画都取消了）
@@ -170,11 +171,11 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
 
     @Override
     public void onShow() {
-        showFloatBtn(sfb, sfbHeitht);
+        showFloatBtn(ivBackTop, sfbHeitht);
     }
 
     @Override
     public void onHide() {
-        hideFloatBtn(sfb, sfbHeitht);
+        hideFloatBtn(ivBackTop, sfbHeitht);
     }
 }
