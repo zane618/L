@@ -1,4 +1,4 @@
-package com.zane.constellation;
+package com.zane.ui.constellation;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,13 +13,11 @@ import com.zane.l.R;
 import com.zane.ui.base.BaseFragment;
 import com.zane.utility.ToastUtils;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by shizhang on 2017/8/6.
  */
 
-public class ConsWeekFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class ConsYearFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
     private SwipeRefreshLayout swLayout;
     private TextView tvName;
     private TextView tvTime;
@@ -27,11 +25,11 @@ public class ConsWeekFragment extends BaseFragment implements SwipeRefreshLayout
     private TextView tvLove;
     private TextView tvWork;
     private TextView tvWealth;
-    private TextView tvJob;
-    private TextView tvWeek;
+    private TextView tvMimaTitle;
+    private TextView tvMimaContent;
 
     private String name;
-    private ConstellationBean bean;
+    private ConsYearBean bean;
     private boolean firstFlag = true;
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
@@ -56,15 +54,15 @@ public class ConsWeekFragment extends BaseFragment implements SwipeRefreshLayout
     }
 
     private void getData() {
-        OkGo.<String>get(Urls.URL_CONSTELLATION_ALL + "week&consName=" + name)
+        OkGo.<String>get(Urls.URL_CONSTELLATION_ALL + "year&consName=" + name)
                 .tag(this)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        ConstellationBean bean = mGson.fromJson(response.body().toString(), ConstellationBean.class);
+                        ConsYearBean bean = mGson.fromJson(response.body().toString(), ConsYearBean.class);
                         if (bean.error_code == 0) {
                             if (bean != null) {
-                                ConsWeekFragment.this.bean = bean;
+                                ConsYearFragment.this.bean = bean;
                                 setViews();
                             }
                         }
@@ -89,12 +87,12 @@ public class ConsWeekFragment extends BaseFragment implements SwipeRefreshLayout
     private void setViews() {
         tvName.setText(bean.name);
         tvTime.setText(bean.date);
-        tvHealth.setText(bean.health);
-        tvLove.setText(bean.love);
-        tvWork.setText(bean.work);
-        tvWealth.setText(bean.money);
-        tvWeek.setText("第" + bean.weekth + "周");
-        tvJob.setText(bean.job);
+        tvHealth.setText(bean.health.get(0));
+        tvLove.setText(bean.love.get(0));
+        tvWork.setText(bean.career.get(0));
+        tvWealth.setText(bean.finance.get(0));
+        tvMimaTitle.setText(bean.mima.info);
+        tvMimaContent.setText(bean.mima.text.get(0));
     }
     private void init(View view) {
         swLayout = (SwipeRefreshLayout) view.findViewById(R.id.sw_layout);
@@ -105,13 +103,13 @@ public class ConsWeekFragment extends BaseFragment implements SwipeRefreshLayout
         tvLove = (TextView) view.findViewById(R.id.tv_love);
         tvWork = (TextView) view.findViewById(R.id.tv_work);
         tvWealth = (TextView) view.findViewById(R.id.tv_wealth);
-        tvWeek = (TextView) view.findViewById(R.id.tv_week);
-        tvJob = (TextView) view.findViewById(R.id.tv_job);
+        tvMimaTitle = (TextView) view.findViewById(R.id.tv_mima_title);
+        tvMimaContent = (TextView) view.findViewById(R.id.tv_mima_content);
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_cons_week;
+        return R.layout.fragment_cons_year;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.zane.ui.base;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -57,6 +58,24 @@ public abstract class BaseFragment extends Fragment {
 		OkGo.getInstance().cancelTag(this);
 	}
 
+	/**
+	 * 隐藏floatBtn
+	 */
+	protected void hideFloatBtn(View view, int viewHeight) {
+		ObjectAnimator animator = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, 0, viewHeight);
+
+		animator.setDuration(300);
+		animator.start();
+	}
+
+	/**
+	 * 显示floatBtn
+	 */
+	protected void showFloatBtn(View view, int viewHeight) {
+		ObjectAnimator animator = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, viewHeight, 0);
+		animator.setDuration(300);
+		animator.start();
+	}
 	//显示progressdialog
 	protected void showProDialog() {
 		if (progressDialog != null) {

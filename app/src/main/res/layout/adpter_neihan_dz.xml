@@ -14,7 +14,7 @@
         android:padding="10dp"
         android:gravity="left"
         android:textSize="15sp"
-        android:text="作者"
+        android:text="开发者"
         android:textColor="@color/c_time"/>
     <TextView
         android:id="@+id/tv_content"

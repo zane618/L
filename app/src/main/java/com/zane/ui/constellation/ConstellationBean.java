@@ -1,7 +1,6 @@
-package com.zane.constellation;
+package com.zane.ui.constellation;
 
 import com.google.gson.annotations.Expose;
-import com.zane.bean.BaseBean;
 
 import java.io.Serializable;
 

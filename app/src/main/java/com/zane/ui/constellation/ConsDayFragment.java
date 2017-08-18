@@ -1,4 +1,4 @@
-package com.zane.constellation;
+package com.zane.ui.constellation;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

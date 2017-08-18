@@ -1,11 +1,10 @@
-package com.zane.neihan;
+package com.zane.ui.neihan;
 
 import android.view.View;
 
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
-import java.security.acl.Group;
 import java.util.List;
 
 /**

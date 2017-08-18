@@ -40,11 +40,11 @@
         android:configChanges="orientation|screenSize"
         android:windowSoftInputMode="adjustPan"/>
         <!--历史上的今天详情界面-->
-        <activity android:name="com.zane.todayhistory.HistoryDetailActivity"
+        <activity android:name="com.zane.ui.todayhistory.HistoryDetailActivity"
             android:theme="@style/ImageFragmentTheme"
             android:configChanges="orientation|screenSize"/>
         <!--星座详情界面-->
-        <activity android:name="com.zane.constellation.ConsDetailActivity"
+        <activity android:name="com.zane.ui.constellation.ConsDetailActivity"
             android:theme="@style/ImageFragmentTheme"
             android:configChanges="orientation|screenSize"/>
         <!--图片缩放activity-->

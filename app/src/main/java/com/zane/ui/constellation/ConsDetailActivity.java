@@ -1,4 +1,4 @@
-package com.zane.constellation;
+package com.zane.ui.constellation;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,12 +9,10 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.zane.l.R;
 import com.zane.ui.adapter.HomeFragmentAdapter;
 import com.zane.ui.base.BaseFragmentActivity;
-import com.zane.ui.fragment.JokeFragment;
 import com.zane.utility.ToastUtils;
 
 import net.lucode.hackware.magicindicator.FragmentContainerHelper;

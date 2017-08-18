@@ -1,4 +1,4 @@
-package com.zane.todayhistory;
+package com.zane.ui.todayhistory;
 
 import com.google.gson.annotations.Expose;
 import com.zane.bean.BaseBean;

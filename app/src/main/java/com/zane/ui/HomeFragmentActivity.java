@@ -3,26 +3,22 @@ package com.zane.ui;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.zane.ads.ADManagerFactory;
 import com.zane.ads.BaseADManager;
 import com.zane.ads.OnAdsListener;
-import com.zane.constellation.ConstellationFragment;
+import com.zane.ui.constellation.ConstellationFragment;
 import com.zane.l.R;
 import com.zane.ui.adapter.HomeFragmentAdapter;
 import com.zane.ui.base.BaseFragmentActivity;
 import com.zane.ui.fragment.JokeFragment;
-import com.zane.utility.L;
 import com.zane.utility.ToastUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -34,13 +30,9 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTit
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.bmob.v3.update.BmobUpdateAgent;
-
-import static android.R.attr.action;
 
 /**
  * Created by shizhang on 2017/6/26.

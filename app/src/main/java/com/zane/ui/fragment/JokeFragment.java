@@ -9,10 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 
-import com.zane.constellation.ConstellationFragment;
 import com.zane.l.R;
-import com.zane.neihan.NeihanDzFragment;
-import com.zane.todayhistory.FragmentHistoryToday;
+import com.zane.ui.neihan.NeihanDzFragment;
+import com.zane.ui.todayhistory.FragmentHistoryToday;
 import com.zane.ui.adapter.HomeFragmentAdapter;
 import com.zane.ui.base.BaseFragment;
 import com.zane.ui.jokefragment.JokeDzFragment;

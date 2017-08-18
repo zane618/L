@@ -1,60 +1,51 @@
-package com.zane.neihan;
+package com.zane.ui.neihan;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
-import android.widget.ImageView;
 
+import com.azhon.suspensionfab.SuspensionFab;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.zane.Qd;
 import com.zane.ads.ADManagerFactory;
 import com.zane.ads.BaseADManager;
 import com.zane.ads.OnAdsListener;
 import com.zane.apis.Urls;
-import com.zane.bean.JokeDzBean;
-import com.zane.bean.JokeDzRandBean;
+import com.zane.customview.DireRecyclerview;
 import com.zane.l.R;
 import com.zane.ui.base.BaseFragment;
-import com.zane.ui.jokefragment.AdapterJokeDz;
 import com.zane.util.CatchLinearLayoutManager;
 import com.zane.utility.ClipboardHelper;
-import com.zane.utility.DateUtil;
+import com.zane.utility.DensityUtils;
 import com.zane.utility.L;
+import com.zane.utility.ScreenUtils;
 import com.zane.utility.ToastUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import static android.R.id.list;
-import static com.lzy.okgo.OkGo.post;
 
 /**
  * Created by shizhang on 2017/7/5.
  */
 
-public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, OnAdsListener{
+public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
+        BaseQuickAdapter.RequestLoadMoreListener, OnAdsListener, DireRecyclerview.OnDireChanged{
     private SwipeRefreshLayout swLayout;
-    private RecyclerView recyclerView;
+    private DireRecyclerview recyclerView;
     private NeihanDzAdapter adapter;
     private List<NeihandzBean.MDataItem> datas = new ArrayList<>();
     private BaseADManager adManager;
     private String min_time = "1502008860"; //上次更新的时间
     private int page;
+    private SuspensionFab sfb;
+    public static int sfbHeitht;
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         initVs(view);
@@ -64,20 +55,17 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
         swLayout = (SwipeRefreshLayout) view.findViewById(R.id.sw_layout);
         swLayout.setOnRefreshListener(this);
         swLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyler_view);
+        recyclerView = (DireRecyclerview) view.findViewById(R.id.recyler_view);
+        sfb = (SuspensionFab) view.findViewById(R.id.sfb);
+        sfbHeitht = DensityUtils.dp2px(mContext, 60);
         recyclerView.setLayoutManager(new CatchLinearLayoutManager(mContext));
+        recyclerView.setOnDireChanged(this);
         ((SimpleItemAnimator)recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);//去掉只要设置为false，就可以不显示动画了，也就解决了闪烁问题。 （所有的notifyItem*动画都取消了）
         adapter = new NeihanDzAdapter(datas);
         adapter.setOnLoadMoreListener(this, recyclerView);
 //        recyclerView.addItemDecoration(new RecycleViewDivider(mContext, LinearLayoutManager.HORIZONTAL, 10, mContext.getResources().getColor(R.color.bg)));
         recyclerView.setAdapter(adapter);
         adapter.disableLoadMoreIfNotFullPage();//这个去除第一次回调加载更多方法,超过一屏无须
-//        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//
-//            }
-//        });
         adapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
@@ -153,7 +141,6 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
         page = 1;
         adapter.setEnableLoadMore(false);
         getDataRand(true);
-        qd();
     }
 
     @Override
@@ -173,35 +160,21 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
             }
             NeihandzBean.MDataItem item = new NeihandzBean.MDataItem();
             item.adView = adView;
-            int insetPosition = new Random().nextInt(6);
+            item.layoutType = 1;
+            int insetPosition = /*new Random().nextInt(6)*/ 1;
             datas.add(size - insetPosition, item);
             adapter.notifyItemInserted(size - insetPosition);
             adapter.notifyItemRangeChanged(size - insetPosition, size - 1);
         }
     }
 
-    private Gson gson;
-    private void qd() {
-        if (gson == null) {
-            gson = new GsonBuilder().disableHtmlEscaping().create();
-        }
-        Qd q = new Qd();
-        q.TimeStamp = "1502758495811";
-//        q.TimeStamp = System.currentTimeMillis() + "";
-        String json = gson.toJson(q);
-            OkGo.<String>post("http://in.iflytek.com:4438/AttendanceService/iflytekservices/Client/AttendanceByiFly")
-                    .tag(this)
-                    .upJson(json)
-                    .execute(new StringCallback() {
-                        @Override
-                        public void onSuccess(Response<String> response) {
-                            ToastUtils.showToast(mContext, response.body().toString());
-                        }
+    @Override
+    public void onShow() {
+        showFloatBtn(sfb, sfbHeitht);
+    }
 
-                        @Override
-                        public void onError(Response<String> response) {
-                            super.onError(response);
-                        }
-                    });
+    @Override
+    public void onHide() {
+        hideFloatBtn(sfb, sfbHeitht);
     }
 }

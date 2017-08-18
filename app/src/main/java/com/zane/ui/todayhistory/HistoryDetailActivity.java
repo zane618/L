@@ -1,4 +1,4 @@
-package com.zane.todayhistory;
+package com.zane.ui.todayhistory;
 
 import android.content.Intent;
 import android.os.Bundle;

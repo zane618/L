@@ -1,4 +1,4 @@
-package com.zane.todayhistory;
+package com.zane.ui.todayhistory;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,28 +7,20 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.zane.ads.BaseADManager;
 import com.zane.apis.Urls;
 import com.zane.l.R;
 import com.zane.ui.base.BaseFragment;
-import com.zane.util.CatchLinearLayoutManager;
 import com.zane.utility.ClipboardHelper;
 import com.zane.utility.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import static android.R.attr.data;
-import static android.R.attr.left;
-import static android.R.attr.start;
-import static android.webkit.WebSettings.PluginState.ON;
 
 /**
  * 历史上的今天，列表界面

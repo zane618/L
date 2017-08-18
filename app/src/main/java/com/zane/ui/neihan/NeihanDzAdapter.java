@@ -1,6 +1,5 @@
-package com.zane.neihan;
+package com.zane.ui.neihan;
 
-import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.view.ViewGroup;
 
@@ -35,16 +34,14 @@ public class NeihanDzAdapter extends BaseQuickAdapter<NeihandzBean.MDataItem, Ba
         switch (helper.getItemViewType()) {
             case 0:
                 if (item.type == 1) {
-                    helper.setText(R.id.tv_time, "作者:" + item.group.user.name)
+                    helper.setText(R.id.tv_time, "段子手:" + item.group.user.name)
                             .setText(R.id.tv_content, item.group.content);
                 }
                 break;
             case 1:
-                if (item.adView.getParent() != null) {
-                    ViewGroup viewGroup = helper.getView(R.id.view_group);
-                    viewGroup.removeAllViews();
-                    viewGroup.addView(item.adView);
-                }
+                ViewGroup viewGroup = helper.getView(R.id.view_group);
+                viewGroup.removeAllViews();
+                viewGroup.addView(item.adView);
                 break;
         }
 

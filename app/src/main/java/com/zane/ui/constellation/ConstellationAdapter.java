@@ -1,8 +1,7 @@
-package com.zane.constellation;
+package com.zane.ui.constellation;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Rating;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -12,11 +11,8 @@ import android.widget.RatingBar;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zane.l.R;
-import com.zane.utility.L;
 
 import java.util.List;
-
-import cn.bmob.v3.Bmob;
 
 import static java.lang.Integer.parseInt;
 

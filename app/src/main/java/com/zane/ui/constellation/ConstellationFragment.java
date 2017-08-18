@@ -1,4 +1,4 @@
-package com.zane.constellation;
+package com.zane.ui.constellation;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
