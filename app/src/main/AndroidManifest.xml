@@ -20,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.zane.ui.HomeFragmentActivity">
+
         </activity>
         <!--闪屏-->
         <activity android:name="com.zane.ui.SplashActivity"
@@ -35,7 +36,7 @@
         <!--Test-->
 
         <!--笑话浏览模式activity-->
-        <activity android:name="com.zane.ui.jokefragment.ChooseJokeBrowseTypeActivity"
+        <activity android:name="com.zane.ui.meiwen.ChooseOperActivity"
         android:theme="@style/translucent"
         android:configChanges="orientation|screenSize"
         android:windowSoftInputMode="adjustPan"/>

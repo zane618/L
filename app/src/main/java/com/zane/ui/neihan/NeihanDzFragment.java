@@ -3,13 +3,11 @@ package com.zane.ui.neihan;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
-import com.azhon.suspensionfab.SuspensionFab;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -24,13 +22,10 @@ import com.zane.ui.base.BaseFragment;
 import com.zane.util.CatchLinearLayoutManager;
 import com.zane.utility.ClipboardHelper;
 import com.zane.utility.DensityUtils;
-import com.zane.utility.L;
-import com.zane.utility.ScreenUtils;
 import com.zane.utility.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 /**
@@ -46,8 +41,8 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
     private BaseADManager adManager;
     private String min_time = "1502008860"; //上次更新的时间
     private int page;
-    private ImageView ivBackTop;
-    public static int sfbHeitht;
+    private View ivBackTop;
+    private int sfbHeitht;
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         initVs(view);
@@ -58,12 +53,13 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
         swLayout.setOnRefreshListener(this);
         swLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         recyclerView = (DireRecyclerview) view.findViewById(R.id.recyler_view);
-        ivBackTop = (ImageView) view.findViewById(R.id.iv_back_top);
-        ViewTreeObserver vot = ivBackTop.getViewTreeObserver();
-        vot.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        ivBackTop = view.findViewById(R.id.iv_back_top);
+        ivBackTop.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 sfbHeitht = DensityUtils.dp2px(mContext, 15) + ivBackTop.getHeight();
+                hideFloatBtn(ivBackTop, sfbHeitht);
+                ivBackTop.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
         ivBackTop.setOnClickListener(this);
@@ -107,7 +103,7 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
                     public void onSuccess(Response<String> response) {
                         NeihandzBean bean = mGson.fromJson(response.body().toString(), NeihandzBean.class);
                         if (bean.message.equals("success")) {
-                            min_time = bean.data.min_time;
+                            min_time = (int) Float.parseFloat(bean.data.min_time) - 1000000 + "" ;
                             List<NeihandzBean.MDataItem> list = bean.data.data;
                             if (list != null && list.size() > 0) {
                                 if (isRefresh) {

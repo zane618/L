@@ -77,7 +77,7 @@ public class SplashActivity extends BaseFragmentActivity {
         countDownTimer.start();
     }
 
-    private CountDownTimer countDownTimer = new CountDownTimer(5000 + 300, 1000) {
+    private CountDownTimer countDownTimer = new CountDownTimer(3000 + 300, 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
             L.e(TAG + millisUntilFinished);

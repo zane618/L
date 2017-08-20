@@ -11,6 +11,7 @@
     <color name="top_bg">#f6f6f6</color>
 
     <color name="bg">#F0F5F9</color>
+    <color name="bg_trans">#EBF0F5F9</color>
     <color name="c_line">#C9D6DE</color>
     <color name="c_title">#DC000000</color>
     <color name="c_content">#B4000000</color>

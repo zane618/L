@@ -15,7 +15,7 @@ import com.zane.ui.todayhistory.FragmentHistoryToday;
 import com.zane.ui.adapter.HomeFragmentAdapter;
 import com.zane.ui.base.BaseFragment;
 import com.zane.ui.jokefragment.JokeDzFragment;
-import com.zane.ui.jokefragment.ChooseJokeBrowseTypeActivity;
+import com.zane.ui.meiwen.ChooseOperActivity;
 import com.zane.ui.jokefragment.JokeQtFragment;
 import com.zane.utility.L;
 
@@ -41,7 +41,7 @@ public class JokeFragment extends BaseFragment {
     private ViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private HomeFragmentAdapter adapter;
-    private static final String[] titleDatas = new String[]{"最新段子", "经典段子","史上今日","经典趣图"};
+    private static final String[] titleDatas = new String[]{"最新段子", "经典段子","史上今日"/*,"经典趣图"*/};
     private Button test;
     public static int JokeFragmentCurrIndex;
 
@@ -55,7 +55,7 @@ public class JokeFragment extends BaseFragment {
         fragments.add(new NeihanDzFragment());
         fragments.add(new JokeDzFragment());
         fragments.add(new FragmentHistoryToday());
-        fragments.add(new JokeQtFragment());
+//        fragments.add(new JokeQtFragment());
         adapter = new HomeFragmentAdapter(getChildFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(4);
@@ -64,7 +64,7 @@ public class JokeFragment extends BaseFragment {
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, ChooseJokeBrowseTypeActivity.class);
+                Intent intent = new Intent(mContext, ChooseOperActivity.class);
                 intent.putExtra("requestCode", JokeFragmentCurrIndex);
                 startActivityForResult(intent, JokeFragmentCurrIndex);
             }
@@ -84,7 +84,7 @@ public class JokeFragment extends BaseFragment {
                     ((JokeDzFragment) fragments.get(JokeFragmentCurrIndex)).doSetBrowseParameterValue(data);
                     break;
                 case 1:
-                    ((JokeQtFragment) fragments.get(JokeFragmentCurrIndex)).doSetBrowseParameterValue(data);
+//                    ((JokeQtFragment) fragments.get(JokeFragmentCurrIndex)).doSetBrowseParameterValue(data);
                     break;
                 case 2:
                     break;
@@ -142,9 +142,9 @@ public class JokeFragment extends BaseFragment {
                 magicIndicator.onPageSelected(position);
                 if(position == 2){
                     ((FragmentHistoryToday) fragments.get(2)).fuck();
-                } else if (position == 3) {
+                }/* else if (position == 3) {
                     ((JokeQtFragment) fragments.get(3)).fuck();
-                }
+                }*/
             }
             @Override
             public void onPageScrollStateChanged(int state) {

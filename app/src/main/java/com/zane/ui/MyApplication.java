@@ -6,7 +6,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.lzy.okgo.OkGo;
 import com.zane.ads.ADManagerFactory;
+import com.zane.l.BuildConfig;
 import com.zane.l.R;
+import com.zane.utility.L;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +37,7 @@ public class MyApplication extends Application {
         .setOkHttpClient(builder.build());
         initGildeOptions();
         ADManagerFactory.initAdPlatform(this);
+        L.isDebug = BuildConfig.LOG;
     }
     public MyApplication getInstance() {
         if (instance == null) {

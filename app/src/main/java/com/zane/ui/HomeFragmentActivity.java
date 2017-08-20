@@ -19,6 +19,7 @@ import com.zane.l.R;
 import com.zane.ui.adapter.HomeFragmentAdapter;
 import com.zane.ui.base.BaseFragmentActivity;
 import com.zane.ui.fragment.JokeFragment;
+import com.zane.ui.meiwen.MeiwenFragment;
 import com.zane.utility.ToastUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -39,9 +40,9 @@ import cn.bmob.v3.update.BmobUpdateAgent;
  */
 
 public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPager.OnPageChangeListener, OnAdsListener{
-    private static final String[] CHANNELS = new String[]{"笑哈", "星座"};
-    private static final int[] IMGS_SEL = new int[]{R.drawable.bottom_1_sel, R.drawable.bottom_2_sel};
-    private static final int[] IMGS_NOL = new int[]{R.drawable.bottom_1_nol, R.drawable.bottom_2_nol};
+    private static final String[] CHANNELS = new String[]{"笑哈", "每文", "星座"};
+    private static final int[] IMGS_SEL = new int[]{R.drawable.bottom_1_sel, R.drawable.bottom_3_sel, R.drawable.bottom_2_sel};
+    private static final int[] IMGS_NOL = new int[]{R.drawable.bottom_1_nol, R.drawable.bottom_3_nol, R.drawable.bottom_2_nol};
     private static final String TAG = "HomeFragmentActivity";
     private ViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
@@ -83,6 +84,9 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
         Fragment jokeFragment = new JokeFragment();
         jokeFragment.setArguments(bJoke);
         fragments.add(jokeFragment);
+
+        Fragment meiwenFragment = new MeiwenFragment();
+        fragments.add(meiwenFragment);
 
         Bundle bConstellation = new Bundle();
         bConstellation.putString("key", "");
@@ -186,8 +190,8 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
                     public void onSelected(int index, int totalCount) {
                         titleText.setTextColor(Color.parseColor("#03A9F5"));
                         titleImg.setImageResource(IMGS_SEL[index]);
-                         if (index == 1) {
-                            ((ConstellationFragment) fragments.get(1)).fuck();
+                         if (index == 2) {
+                            ((ConstellationFragment) fragments.get(2)).fuck();
                         }
                     }
 

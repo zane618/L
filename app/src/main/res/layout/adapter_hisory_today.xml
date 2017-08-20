@@ -9,6 +9,7 @@
     app:cardElevation="5dp"
     android:padding="15dp"
     android:clickable="true"
+    android:id="@+id/card_layout"
     android:foreground="?android:attr/selectableItemBackground"
     >
     <LinearLayout

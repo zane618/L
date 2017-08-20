@@ -22,6 +22,8 @@ public class HistoryTodayAdapter extends BaseQuickAdapter<HistoryTodayListBean.M
     @Override
     protected void convert(BaseViewHolder helper, HistoryTodayListBean.MData item) {
         helper.setText(R.id.tv_title, item.title)
-                .setText(R.id.tv_time, item.date);
+                .setText(R.id.tv_time, item.date)
+                .addOnClickListener(R.id.card_layout)
+                .addOnLongClickListener(R.id.card_layout);
     }
 }

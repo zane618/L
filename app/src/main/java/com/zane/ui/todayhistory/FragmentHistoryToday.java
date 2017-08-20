@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.umeng.analytics.pro.dm.i;
+
 /**
  * 历史上的今天，列表界面
  * Created by shizhang on 2017/7/30.
@@ -45,17 +47,18 @@ public class FragmentHistoryToday extends BaseFragment implements SwipeRefreshLa
                 StaggeredGridLayoutManager.VERTICAL));
         adapter = new HistoryTodayAdapter(R.layout.adapter_hisory_today, datas);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(mContext, HistoryDetailActivity.class);
                 intent.putExtra("eId", datas.get(position).e_id);
                 startActivity(intent);
             }
         });
-        adapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+
+        adapter.setOnItemChildLongClickListener(new BaseQuickAdapter.OnItemChildLongClickListener() {
             @Override
-            public boolean onItemLongClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+            public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
                 ClipboardHelper.copyText(mContext, datas.get(i).date + "，" + datas.get(i).title);
                 ToastUtils.showToast(mContext, "已复制到剪切板");
                 return true;
@@ -75,8 +78,8 @@ public class FragmentHistoryToday extends BaseFragment implements SwipeRefreshLa
                 }
             });
             firstFlag = false;
+            getData();
         }
-        getData();
     }
     /**
      * 获取列表数据
