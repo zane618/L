@@ -18,8 +18,8 @@ import java.util.List;
 
 public class ChooseOperActivity extends Activity implements View.OnClickListener{
     private ViewGroup viewGroup;
+    private int resultCode;
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_oper);
@@ -56,5 +56,24 @@ public class ChooseOperActivity extends Activity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.collect:
+                resultCode = MeiwenFragment.COLLECT;
+                break;
+            case R.id.collect_list:
+                resultCode = MeiwenFragment.COLLECT_LIST;
+                break;
+            case R.id.random:
+                resultCode = MeiwenFragment.RANDOM;
+                break;
+        }
+        setResult(resultCode);
+        finish();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        this.overridePendingTransition(R.anim.fade, R.anim.hold);
     }
 }

@@ -14,6 +14,7 @@ public class DireScrollView extends ScrollView {
 
     private OnSrcollDireChanged onSrcollDireChanged;
     public boolean isShow = true;
+    private boolean isScrolledToBottom = false;
 
     public interface OnSrcollDireChanged {
         public void onSrcollUp();
@@ -40,10 +41,30 @@ public class DireScrollView extends ScrollView {
             onSrcollDireChanged.onSrollDown();
             L.e("down");
         } else if (isShow && oldt < t && t - oldt > 30 && onSrcollDireChanged != null) {//向上
+            if (isScrolledToBottom) {
+                isScrolledToBottom = false;
+                return;
+            }
             isShow = false;
             onSrcollDireChanged.onSrcollUp();
             L.e("up");
         }
+    }
+
+    @Override
+    protected void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY) {
+        super.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
+        if (scrollY > 0 && clampedY && !isScrolledToBottom && !isShow && onSrcollDireChanged != null) {
+            isShow = true;
+            isScrolledToBottom = true;
+            onSrcollDireChanged.onSrollDown();
+            L.e("sc", "aaaaaaaaa");
+        }
+//        if (scrollY == 0) { //滑到顶部了
+//        } else if(!isScrolledToBottom){
+//            isScrolledToBottom = clampedY;
+//            L.e("sc", "scrollY != 0" + String.valueOf(clampedY));
+//        }
     }
 
     public void setOnSrcollDireChanged(OnSrcollDireChanged onSrcollDireChanged) {

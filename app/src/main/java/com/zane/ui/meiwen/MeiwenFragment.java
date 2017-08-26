@@ -1,6 +1,8 @@
 package com.zane.ui.meiwen;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.style.URLSpan;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,9 +32,11 @@ import static com.umeng.analytics.pro.x.O;
  * Created by shizhang on 2017/8/20.
  */
 
-public class MeiwenFragment extends BaseFragment implements View.OnClickListener, DireScrollView.OnSrcollDireChanged
-, View.OnTouchListener, OnAdsListener{
-
+public class MeiwenFragment extends BaseFragment implements View.OnClickListener
+, OnAdsListener, DireScrollView.OnSrcollDireChanged{
+    public static final int COLLECT = 1;//收藏
+    public static final int COLLECT_LIST = 2;//收藏列表
+    public static final int RANDOM = 3;//随机一文
     private TextView tvTime;
     private TextView tvContent;
     private TextView tvTitle;
@@ -123,9 +127,24 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        ToastUtils.showToast(mContext, "随机一文");
-        getToday(Urls.MW_RANDOM, null);
-        loadAd();
+        startActivityForResult(new Intent(mContext, ChooseOperActivity.class), 0);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode) {
+            case COLLECT:
+                ToastUtils.showToast(mContext, "成功收藏到本地");
+                break;
+            case COLLECT_LIST:
+                ToastUtils.showToast(mContext, "收藏列表");
+                break;
+            case RANDOM:
+                ToastUtils.showToast(mContext, "随机一文");
+                getToday(Urls.MW_RANDOM, null);
+                loadAd();
+                break;
+        }
     }
 
     @Override
@@ -138,15 +157,6 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
         showFloatBtn(vRandom, vRandomHeight);
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (scroll_view.getChildAt(0).getHeight() - scroll_view.getHeight()
-                == scroll_view.getScrollY()) {
-            scroll_view.isShow = true;
-            showFloatBtn(vRandom, vRandomHeight);
-        }
-        return false;
-    }
 
     @Override
     public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
