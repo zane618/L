@@ -1,5 +1,6 @@
 package com.zane.ui.meiwen;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -20,23 +22,37 @@ import com.zane.ads.BaseADManager;
 import com.zane.ads.OnAdsListener;
 import com.zane.apis.Urls;
 import com.zane.customview.DireScrollView;
+import com.zane.customview.meiwen.CollectListAdapter;
+import com.zane.customview.meiwen.CollectListDialog;
 import com.zane.l.R;
+import com.zane.ui.MyApplication;
 import com.zane.ui.base.BaseFragment;
+import com.zane.ui.meiwen.db.DaoMaster;
+import com.zane.ui.meiwen.db.DaoSession;
+import com.zane.ui.meiwen.db.MeiwEntity;
+import com.zane.ui.meiwen.db.MeiwEntityDao;
 import com.zane.utility.DensityUtils;
 import com.zane.utility.L;
 import com.zane.utility.ToastUtils;
 
+import org.greenrobot.greendao.database.Database;
+
+import java.util.List;
+
 import static com.umeng.analytics.pro.x.O;
+import static com.umeng.analytics.pro.x.b;
+import static com.umeng.analytics.pro.x.h;
 
 /**
  * Created by shizhang on 2017/8/20.
  */
 
 public class MeiwenFragment extends BaseFragment implements View.OnClickListener
-, OnAdsListener, DireScrollView.OnSrcollDireChanged{
+, OnAdsListener, DireScrollView.OnSrcollDireChanged, CollectListDialog.OnItemChoose{
     public static final int COLLECT = 1;//收藏
     public static final int COLLECT_LIST = 2;//收藏列表
     public static final int RANDOM = 3;//随机一文
+    public static final String IS_EXIST = "is_exist";
     private TextView tvTime;
     private TextView tvContent;
     private TextView tvTitle;
@@ -48,6 +64,8 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
     private DireScrollView scroll_view;
     private BaseADManager adManager;
     private FrameLayout flAdLayout;
+    public static MeiwEntityDao meiwenDao;
+    private CollectListDialog collectListDialog;
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         scroll_view = (DireScrollView) view.findViewById(R.id.scroll_view);
@@ -72,6 +90,13 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
         adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
         getToday(Urls.MW_TODAY, null);
         loadAd();
+        initMeiwenDb();
+    }
+    private void initMeiwenDb() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(mContext, "meiwen");
+        DaoMaster daoMaster = new DaoMaster(helper.getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        meiwenDao = daoSession.getMeiwEntityDao();
     }
     private void getToday(String url, String urlParam) {
         if (urlParam != null) {
@@ -119,6 +144,7 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
                 }
             });
         }
+        queryExist();//每次加载完一条就查一个是否存在
     }
     @Override
     protected int getLayoutId() {
@@ -127,20 +153,61 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        startActivityForResult(new Intent(mContext, ChooseOperActivity.class), 0);
+        Intent intent = new Intent(mContext, ChooseOperActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(IS_EXIST, isExist);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, 0);
     }
 
+    private boolean isExist = false;
+    private boolean queryExist() {
+        List<MeiwEntity> meiwEntities = meiwenDao.queryBuilder()
+                .where(MeiwEntityDao.Properties.Title.eq(bean.data.title))
+                .build().list();
+        if (meiwEntities != null && meiwEntities.size() > 0) {
+            isExist = true;
+        } else {
+            isExist = false;
+        }
+        return isExist;
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
             case COLLECT:
-                ToastUtils.showToast(mContext, "成功收藏到本地");
+                if (isExist) {//存在、就删
+                    ToastUtils.showToast(mContext, "已取消");
+                    isExist = false;
+                    MeiwEntity meiwEntity = meiwenDao.queryBuilder()
+                            .where(MeiwEntityDao.Properties.Title.eq(bean.data.title))
+                            .build().unique();
+                    if (meiwEntity != null) {
+                        meiwenDao.deleteByKey(meiwEntity.getId());
+                    }
+                } else {
+                    ToastUtils.showToast(mContext, "已收藏");
+                    isExist = true;
+                    MeiwEntity meiwEntity = new MeiwEntity(null, bean.data.title,
+                            bean.data.date.curr, bean.data.author);
+                    meiwenDao.insert(meiwEntity);
+                }
                 break;
             case COLLECT_LIST:
-                ToastUtils.showToast(mContext, "收藏列表");
+                List<MeiwEntity> meiwEntities = meiwenDao.queryBuilder()
+//                        .where(MeiwEntityDao.Properties.Id.notEq(1))
+//                        .limit(5)
+                        .build().list();
+                if (collectListDialog == null) {
+                    collectListDialog = new CollectListDialog(mContext, meiwEntities, this);
+                    collectListDialog.show();
+                } else {
+                    collectListDialog.show();
+                    collectListDialog.upData(meiwEntities);
+                }
                 break;
             case RANDOM:
-                ToastUtils.showToast(mContext, "随机一文");
+//                ToastUtils.showToast(mContext, "随机一文");
                 getToday(Urls.MW_RANDOM, null);
                 loadAd();
                 break;
@@ -167,5 +234,13 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
             flAdLayout.removeAllViews();
         }
         flAdLayout.addView(adView);
+    }
+
+    @Override
+    public void onItem(String date) {
+        if (date.equals(bean.data.date.curr)) {
+            return;
+        }
+        getToday(Urls.MW_THEDAY, date);
     }
 }

@@ -8,7 +8,12 @@ import com.lzy.okgo.OkGo;
 import com.zane.ads.ADManagerFactory;
 import com.zane.l.BuildConfig;
 import com.zane.l.R;
+import com.zane.ui.meiwen.db.DaoMaster;
+import com.zane.ui.meiwen.db.DaoSession;
+import com.zane.ui.meiwen.db.MeiwEntityDao;
 import com.zane.utility.L;
+
+import org.greenrobot.greendao.database.Database;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,15 +28,17 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public class MyApplication extends Application {
     private static MyApplication instance;
     public static RequestOptions options;
+    public MeiwEntityDao meiwenDao;
+
     @Override
     public void onCreate() {
         super.onCreate();
         Bmob.initialize(this, this.getResources().getString(R.string.bmob_app_id));
         BmobUpdateAgent.setUpdateCheckConfig(false);
-        OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .readTimeout(5000, TimeUnit.MILLISECONDS)
-                .writeTimeout(5000, TimeUnit.MILLISECONDS)
-                .writeTimeout(5000, TimeUnit.MILLISECONDS);
+        OkHttpClient.Builder builder = new OkHttpClient
+                .Builder()
+                .readTimeout(3000, TimeUnit.MILLISECONDS)
+                .writeTimeout(3000, TimeUnit.MILLISECONDS);
 
         OkGo.getInstance().init(this)
         .setOkHttpClient(builder.build());
@@ -39,7 +46,8 @@ public class MyApplication extends Application {
         ADManagerFactory.initAdPlatform(this);
         L.isDebug = BuildConfig.LOG;
     }
-    public MyApplication getInstance() {
+
+    public static MyApplication getInstance() {
         if (instance == null) {
             instance = new MyApplication();
         }

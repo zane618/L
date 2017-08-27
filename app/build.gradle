@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
     signingConfigs {
@@ -36,17 +37,17 @@ android {
     //多渠道
     productFlavors {
 //        mytest{}
-//        yingyongbao {}
-//        ali {}
+        yingyongbao {}
+        ali {}
 //        wandoujia {}
-//        baidu {}
+        baidu {}
         _360 {}
-//        _91 {}
-//        anzhuo {}
+        _91 {}
+        anzhuo {}
 //        uc {}
 //        huawei {}
 //        vivo {}
-//        xiaomi {}
+        xiaomi {}
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }
@@ -100,7 +101,7 @@ android {
         compile project(':photoview')
         //友盟统计
         compile 'com.umeng.analytics:analytics:latest.integration'
-        compile 'com.azhon:suspension-fab:1.1.0'
+        compile 'org.greenrobot:greendao:3.2.2' // add library
     }
 }
 

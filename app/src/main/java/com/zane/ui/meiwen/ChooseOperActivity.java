@@ -1,9 +1,12 @@
 package com.zane.ui.meiwen;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.facebook.rebound.SimpleSpringListener;
 import com.facebook.rebound.Spring;
@@ -19,6 +22,7 @@ import java.util.List;
 public class ChooseOperActivity extends Activity implements View.OnClickListener{
     private ViewGroup viewGroup;
     private int resultCode;
+    private boolean isExist = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +32,18 @@ public class ChooseOperActivity extends Activity implements View.OnClickListener
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                s();
+            }
+        }, 100);
 
+    }
+
+    private void s() {
+        Intent intent = getIntent();
+        isExist = intent.getExtras().getBoolean(MeiwenFragment.IS_EXIST);
         findViewById(R.id.main).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +54,9 @@ public class ChooseOperActivity extends Activity implements View.OnClickListener
         viewGroup = (ViewGroup) findViewById(R.id.view_group);
         for (int i = 0; i < viewGroup.getChildCount(); i ++) {
             final View view = viewGroup.getChildAt(i);
+            if (isExist && i == 0) {
+                ((ImageView) view).setImageResource(R.drawable.icon_collect_red);
+            }
             view.setOnClickListener(this);
             springChain.addSpring(new SimpleSpringListener() {
                 @Override

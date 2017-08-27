@@ -42,5 +42,8 @@ public class Urls {
     public static final String MW_TODAY = "https://interface.meiriyiwen.com/article/today?dev=1";
     //随机一文
     public static final String MW_RANDOM = "https://interface.meiriyiwen.com/article/random?dev=1";
+    //指定日期
+    public static final String MW_THEDAY = "https://interface.meiriyiwen.com/article/day?dev=1&date=";
+
 
 }
