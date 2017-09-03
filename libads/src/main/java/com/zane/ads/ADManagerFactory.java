@@ -2,7 +2,9 @@ package com.zane.ads;
 
 import android.content.Context;
 
+import com.qq.e.comm.managers.GDTADManager;
 import com.zane.ads.BaseADManager;
+import com.zane.ads.gdtads.GdtAdManager;
 import com.zane.ads.voiceads.IflyAdManager;
 import com.zane.ads.youmiads.YoumiAdManager;
 
@@ -20,6 +22,8 @@ public class ADManagerFactory {
             return IflyAdManager.getInstance(context.getApplicationContext());
         } else if(adPlatform == BaseADManager.AD_PLATFORM_YOUMI){
             return YoumiAdManager.getInstance(context.getApplicationContext());
+        } else if (adPlatform == BaseADManager.AD_PLATFORM_GDT) {
+            return GdtAdManager.getInstance(context.getApplicationContext());
         }
         return null;
     }

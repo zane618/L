@@ -10,6 +10,7 @@ public abstract class BaseADManager implements ADInterface{
          */
     public static final int AD_PLATFORM_IFLY = 1;
     public static final int AD_PLATFORM_YOUMI = 2;
+    public static final int AD_PLATFORM_GDT = 3;
 
 
     /**

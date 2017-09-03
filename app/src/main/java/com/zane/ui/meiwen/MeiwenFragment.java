@@ -38,10 +38,9 @@ import com.zane.utility.ToastUtils;
 import org.greenrobot.greendao.database.Database;
 
 import java.util.List;
+import java.util.Random;
 
-import static com.umeng.analytics.pro.x.O;
-import static com.umeng.analytics.pro.x.b;
-import static com.umeng.analytics.pro.x.h;
+import static com.zane.ads.BaseADManager.ID_INTERT;
 
 /**
  * Created by shizhang on 2017/8/20.
@@ -62,10 +61,13 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
     private View vRandom;
     private int vRandomHeight;
     private DireScrollView scroll_view;
-    private BaseADManager adManager;
+    private BaseADManager iflyAdManager;
+    private BaseADManager gdtAdManager;
     private FrameLayout flAdLayout;
     public static MeiwEntityDao meiwenDao;
     private CollectListDialog collectListDialog;
+    private int page = 1;
+
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         scroll_view = (DireScrollView) view.findViewById(R.id.scroll_view);
@@ -87,9 +89,10 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
         tvTitle = (TextView) view.findViewById(R.id.tv_title);
         tvAuthor = (TextView) view.findViewById(R.id.tv_author);
         tvWc = (TextView) view.findViewById(R.id.tv_wc);
-        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
+        iflyAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
+        gdtAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_GDT);
         getToday(Urls.MW_TODAY, null);
-        loadAd();
+        loadAd(false);
         initMeiwenDb();
     }
     private void initMeiwenDb() {
@@ -122,9 +125,17 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
                     }
                 });
     }
-    private void loadAd() {
-        if (adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
+
+    private void loadAd(boolean isInsertAd) {
+        int r = new Random().nextInt(3);
+        if (r == 1 || r == 2 && gdtAdManager != null) {
+            gdtAdManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
+        }
+        if (r == 0 && iflyAdManager != null) {
+            iflyAdManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
+        }
+        if (isInsertAd && gdtAdManager != null) {
+            gdtAdManager.loadInterstitialAd(getActivity(), ID_INTERT, this);
         }
     }
     private void setValues() {
@@ -209,7 +220,8 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
             case RANDOM:
 //                ToastUtils.showToast(mContext, "随机一文");
                 getToday(Urls.MW_RANDOM, null);
-                loadAd();
+                page++;
+                loadAd(page % 2 == 0);
                 break;
         }
     }

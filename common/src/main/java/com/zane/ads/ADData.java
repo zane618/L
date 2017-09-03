@@ -11,4 +11,7 @@ public class ADData {
     public String mSubTitle;
     public String mImageUrl;
     public String mIcon;
+
+    //广点通
+
 }

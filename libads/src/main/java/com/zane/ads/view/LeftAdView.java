@@ -12,6 +12,7 @@ import com.iflytek.voiceads.NativeADDataRef;
 import com.zane.ads.ADData;
 import com.zane.ads.BaseADManager;
 import com.zane.ads.R;
+import com.zane.ads.gdtads.GdtAdManager;
 import com.zane.ads.voiceads.IflyAdManager;
 import com.zane.utility.L;
 
@@ -50,7 +51,7 @@ public class LeftAdView implements View.OnClickListener{
                 return false;
             }
         });
-        if (o instanceof NativeADDataRef) {
+        if (o instanceof NativeADDataRef || o instanceof com.qq.e.ads.nativ.NativeADDataRef) {
             Glide.with(context)
                     .load(adItem.mImageUrl)
                     .into(ivAd);
@@ -60,7 +61,11 @@ public class LeftAdView implements View.OnClickListener{
         rootView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
-                ((NativeADDataRef) o).onExposured(rootView);
+                if (o instanceof NativeADDataRef) {
+                    ((NativeADDataRef) o).onExposured(rootView);
+                } else if (o instanceof com.qq.e.ads.nativ.NativeADDataRef) {
+                    ((com.qq.e.ads.nativ.NativeADDataRef) o).onExposured(rootView);
+                }
             }
 
             @Override
@@ -74,6 +79,10 @@ public class LeftAdView implements View.OnClickListener{
     }
     @Override
     public void onClick(View v) {
-        IflyAdManager.getInstance(context).onAdClickListener(rootView, o);
+        if (o instanceof NativeADDataRef) {
+            IflyAdManager.getInstance(context).onAdClickListener(rootView, o);
+        } else if (o instanceof com.qq.e.ads.nativ.NativeADDataRef) {
+            GdtAdManager.getInstance(context).onAdClickListener(rootView, o);
+        }
     }
 }

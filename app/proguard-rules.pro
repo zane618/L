@@ -215,3 +215,11 @@ public static java.lang.String TABLENAME;
 }
 -keep class **$Properties
 #end greendao====================================================================================================================
+#start 广点通
+-keep class com.qq.e.** {
+    public protected *;
+}
+-keep class android.support.v4.app.NotificationCompat**{
+    public *;
+}
+#end 广点通===========================================================================================================================

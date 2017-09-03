@@ -11,4 +11,8 @@
     <!--有米-->
     <string name="youmi_appid">d201cf880a227be6</string>
     <string name="youmi_appkey">c3fd515e51ce1cce</string>
+    <!--广点通-->
+    <string name="gdt_app_id">1106305626</string>
+    <string name="gdt_bottom_ad_id">7090723594678590</string>
+    <string name="gdt_insert_ad_id">6090028554571513</string>
 </resources>

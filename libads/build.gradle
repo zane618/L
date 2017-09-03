@@ -37,4 +37,5 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${SUPPORT_VERSION}"
     compile "com.android.support:support-v4:${SUPPORT_VERSION}"
     compile name: 'YoumiSdk_v7.4.0_2017-07-18', ext: 'aar'
+    compile files('libs/GDTUnionSDK.4.11.551.min.jar')
 }

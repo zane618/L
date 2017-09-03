@@ -38,7 +38,8 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
     private DireRecyclerview recyclerView;
     private NeihanDzAdapter adapter;
     private List<NeihandzBean.MDataItem> datas = new ArrayList<>();
-    private BaseADManager adManager;
+    private BaseADManager iflyAdManager;
+    private BaseADManager gdtAdManager;
     private String min_time = "1502008860"; //上次更新的时间
     private int page;
     private View ivBackTop;
@@ -87,10 +88,8 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
                 swLayout.setRefreshing(true);
             }
         });
-        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
-        if (adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
-        }
+        iflyAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
+        gdtAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_GDT);
         getDataRand(true);
     }
     /**
@@ -112,6 +111,7 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
                                 adapter.addData(list);
                                 adapter.loadMoreComplete();
                                 page ++;
+                                loadAd();
                             }
                         }
                     }
@@ -150,11 +150,17 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
 
     @Override
     public void onLoadMoreRequested() {
-        if (/*page % 2 == 0 &&*/ adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
-        }
         swLayout.setEnabled(false);//加载更多，就不能下拉刷新
         getDataRand(false);
+    }
+    private void loadAd() {
+        int p = page % 3;
+        if (p == 0 && iflyAdManager != null) {
+            iflyAdManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
+        }
+        if (p == 1 || p == 2 && gdtAdManager != null) {
+            gdtAdManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
+        }
     }
     @Override
     public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {

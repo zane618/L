@@ -50,7 +50,8 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
     private String time;//时间戳
     private String sort;
     private int browseType = 0;//浏览类型(包含时间前、后
-    private BaseADManager adManager;
+    private BaseADManager iflyAdManager;
+    private BaseADManager gdtAdManager;
     private ImageView ivBackTop;
     private int sfbHeitht;
 
@@ -100,10 +101,8 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
                 swLayout.setRefreshing(true);
             }
         });
-        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
-        if (adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
-        }
+        iflyAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
+        gdtAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_GDT);
         doBrowseType(true);
     }
     /**
@@ -136,6 +135,7 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
                                 }
                                 L.e("size" + datas.size());
                                 page ++;
+                                loadAd();
                             } else {
                                 adapter.loadMoreFail();
                             }
@@ -161,6 +161,7 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
                     }
                 });
     }
+
     //设置浏览类型参数
     public void doSetBrowseParameterValue(Intent intent) {
         if (null != intent && browseType != intent.getIntExtra("browseType", 0)) {
@@ -209,21 +210,26 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
-        if (adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE ,this);
-        }
-        adapter.setEnableLoadMore(false);
         page = 1;
+        adapter.setEnableLoadMore(false);
         doBrowseType(true);
     }
 
     @Override
     public void onLoadMoreRequested() {
-        if (page % 2 == 0 && adManager != null) {
-            adManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE ,this);
-        }
         swLayout.setEnabled(false);//加载更多，就不能下拉刷新
         doBrowseType(false);
+    }
+    private void loadAd() {
+        if (page / 2 != 0) {
+            int p = page % 3;
+            if (p == 0 && iflyAdManager != null) {
+                iflyAdManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
+            }
+            if (p == 1 || p == 2 && gdtAdManager != null) {
+                gdtAdManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
+            }
+        }
     }
     @Override
     public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
