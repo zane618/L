@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.umeng.analytics.pro.dm.i;
-
 /**
  * 历史上的今天，列表界面
  * Created by shizhang on 2017/7/30.
@@ -59,7 +57,7 @@ public class FragmentHistoryToday extends BaseFragment implements SwipeRefreshLa
         adapter.setOnItemChildLongClickListener(new BaseQuickAdapter.OnItemChildLongClickListener() {
             @Override
             public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
-                ClipboardHelper.copyText(mContext, datas.get(i).date + "，" + datas.get(i).title);
+                ClipboardHelper.copyText(mContext, datas.get(position).date + "，" + datas.get(position).title);
                 ToastUtils.showToast(mContext, "已复制到剪切板");
                 return true;
             }
