@@ -36,7 +36,7 @@ import cn.bmob.v3.update.BmobUpdateAgent;
  * Created by shizhang on 2017/6/26.
  */
 
-public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPager.OnPageChangeListener{
+public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPager.OnPageChangeListener {
     private static final String[] CHANNELS = new String[]{"笑哈", "每文", "星座"};
     private static final int[] IMGS_SEL = new int[]{R.drawable.bottom_1_sel, R.drawable.bottom_3_sel, R.drawable.bottom_2_sel};
     private static final int[] IMGS_NOL = new int[]{R.drawable.bottom_1_nol, R.drawable.bottom_3_nol, R.drawable.bottom_2_nol};
@@ -57,44 +57,27 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
         adLayout = (ViewGroup) findViewById(R.id.ad_layout);
         initViewpager();
         appUpdate();
-/*
-        ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY)
-                .loadBannerAd(mContext, BaseADManager.ID_BANNER,  new OnAdsListener() {
-                    @Override
-                    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
-                        if (success) {
-                            adLayout.setVisibility(View.VISIBLE);
-                        } else {
-                            adLayout.setVisibility(View.GONE);
-                        }
-                    }
-                }, adLayout);
-*/
 
     }
 
     private void initViewpager() {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
+
+        Fragment meiwenFragment = new MeiwenFragment();
+        fragments.add(meiwenFragment);
+
         Bundle bJoke = new Bundle();
         bJoke.putString("key", "");
         Fragment jokeFragment = new JokeFragment();
         jokeFragment.setArguments(bJoke);
         fragments.add(jokeFragment);
 
-        Fragment meiwenFragment = new MeiwenFragment();
-        fragments.add(meiwenFragment);
 
         Bundle bConstellation = new Bundle();
         bConstellation.putString("key", "");
         Fragment constellationFragment = new ConstellationFragment();
         constellationFragment.setArguments(bConstellation);
         fragments.add(constellationFragment);
-//
-//        Bundle bTinhistory = new Bundle();
-//        bTinhistory.putString("key", "");
-//        Fragment tinhistoryFragment = new TinhistoryFragment();
-//        tinhistoryFragment.setArguments(bTinhistory);
-//        fragments.add(tinhistoryFragment);
 
         homeFragmentAdapter = new HomeFragmentAdapter(getSupportFragmentManager(), fragments);
         viewPager.setOffscreenPageLimit(3);
@@ -123,15 +106,12 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
 
     @Override
     public void onBackPressed() {
-//        if (exitAdManager != null) {
-//            exitAdManager.loadExitAd(mContext, this);
-//        } else {
-            exitByTime();
-//        }
+        exitByTime();
 
     }
 
     private long mClickBackTime = -1;
+
     private void exitByTime() {
         long curTime = System.currentTimeMillis();
         if (curTime - mClickBackTime > 1500) {
@@ -146,6 +126,7 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
     protected void onDestroy() {
         super.onDestroy();
     }
+
     private void initMagicIndicator() {
         MagicIndicator magicIndicator = (MagicIndicator) findViewById(R.id.magic_indicator1);
         magicIndicator.setBackgroundColor(Color.BLACK);
@@ -176,7 +157,7 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
                     public void onSelected(int index, int totalCount) {
                         titleText.setTextColor(Color.parseColor("#03A9F5"));
                         titleImg.setImageResource(IMGS_SEL[index]);
-                         if (index == 2) {
+                        if (index == 2) {
                             ((ConstellationFragment) fragments.get(2)).fuck();
                         }
                     }

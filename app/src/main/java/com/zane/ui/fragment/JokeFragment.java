@@ -41,7 +41,7 @@ public class JokeFragment extends BaseFragment {
     private ViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private HomeFragmentAdapter adapter;
-    private static final String[] titleDatas = new String[]{"最新段子", "经典段子","史上今日"/*,"经典趣图"*/};
+    private static final String[] titleDatas = new String[]{/*"最新段子",*/ "经典段子","史上今日"/*,"经典趣图"*/};
     private Button test;
     public static int JokeFragmentCurrIndex;
 
@@ -52,7 +52,7 @@ public class JokeFragment extends BaseFragment {
 
     private void initViewpager(View view) {
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        fragments.add(new NeihanDzFragment());
+//        fragments.add(new NeihanDzFragment());
         fragments.add(new JokeDzFragment());
         fragments.add(new FragmentHistoryToday());
 //        fragments.add(new JokeQtFragment());
@@ -140,8 +140,8 @@ public class JokeFragment extends BaseFragment {
             public void onPageSelected(int position) {
                 JokeFragmentCurrIndex = position;
                 magicIndicator.onPageSelected(position);
-                if(position == 2){
-                    ((FragmentHistoryToday) fragments.get(2)).fuck();
+                if(position == 1){
+                    ((FragmentHistoryToday) fragments.get(1)).fuck();
                 }/* else if (position == 3) {
                     ((JokeQtFragment) fragments.get(3)).fuck();
                 }*/
