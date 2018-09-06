@@ -5,22 +5,17 @@ import android.app.Application;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.lzy.okgo.OkGo;
-import com.zane.ads.ADManagerFactory;
 import com.zane.l.BuildConfig;
 import com.zane.l.R;
-import com.zane.ui.meiwen.db.DaoMaster;
-import com.zane.ui.meiwen.db.DaoSession;
 import com.zane.ui.meiwen.db.MeiwEntityDao;
 import com.zane.utility.L;
 
-import org.greenrobot.greendao.database.Database;
 
 import java.util.concurrent.TimeUnit;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.update.BmobUpdateAgent;
 import okhttp3.OkHttpClient;
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 /**
  * Created by shizhang on 2017/6/26.
  */
@@ -43,7 +38,6 @@ public class MyApplication extends Application {
         OkGo.getInstance().init(this)
         .setOkHttpClient(builder.build());
         initGildeOptions();
-        ADManagerFactory.initAdPlatform(this);
         L.isDebug = BuildConfig.LOG;
     }
 

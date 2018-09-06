@@ -11,9 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.zane.ads.ADManagerFactory;
-import com.zane.ads.BaseADManager;
-import com.zane.ads.OnAdsListener;
 import com.zane.ui.constellation.ConstellationFragment;
 import com.zane.l.R;
 import com.zane.ui.adapter.HomeFragmentAdapter;
@@ -39,7 +36,7 @@ import cn.bmob.v3.update.BmobUpdateAgent;
  * Created by shizhang on 2017/6/26.
  */
 
-public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPager.OnPageChangeListener, OnAdsListener{
+public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPager.OnPageChangeListener{
     private static final String[] CHANNELS = new String[]{"笑哈", "每文", "星座"};
     private static final int[] IMGS_SEL = new int[]{R.drawable.bottom_1_sel, R.drawable.bottom_3_sel, R.drawable.bottom_2_sel};
     private static final int[] IMGS_NOL = new int[]{R.drawable.bottom_1_nol, R.drawable.bottom_3_nol, R.drawable.bottom_2_nol};
@@ -48,7 +45,6 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
     private List<Fragment> fragments = new ArrayList<>();
     private HomeFragmentAdapter homeFragmentAdapter;
     private int currIndex;
-    private BaseADManager exitAdManager;
     private ViewGroup adLayout;
 
     @Override
@@ -105,7 +101,6 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
         viewPager.setAdapter(homeFragmentAdapter);
         initMagicIndicator();
         viewPager.addOnPageChangeListener(this);
-        exitAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
     }
 
     @Override
@@ -148,17 +143,8 @@ public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPa
     }
 
     @Override
-    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
-        if (!success) {
-            exitAdManager = null;
-            exitByTime();
-        }
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        ADManagerFactory.onAppExit(this);
     }
     private void initMagicIndicator() {
         MagicIndicator magicIndicator = (MagicIndicator) findViewById(R.id.magic_indicator1);

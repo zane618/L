@@ -7,25 +7,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.zane.ads.ADManagerFactory;
-import com.zane.ads.BaseADManager;
-import com.zane.ads.OnAdsListener;
 import com.zane.apis.Urls;
-import com.zane.bean.JokeDzBean;
-import com.zane.bean.JokeDzRandBean;
 import com.zane.bean.JokeQtBean;
 import com.zane.bean.JokeQtRandBean;
 import com.zane.l.R;
 import com.zane.ui.ImageFragmentActivity;
 import com.zane.ui.base.BaseFragment;
-import com.zane.util.CatchLinearLayoutManager;
 import com.zane.utility.L;
 import com.zane.utility.ToastUtils;
 
@@ -36,7 +29,7 @@ import java.util.List;
  * Created by shizhang on 2017/7/10.
  */
 
-public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, OnAdsListener {
+public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
     private static final String TAG = "JokeDzFragment";
     private static final int BROWSE_RAND_TYPE = 0;//随机
     private static final int BROWSE_TEXT_TYPE = 1;//最新
@@ -50,7 +43,6 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
     private String time;//时间戳
     private String sort;
     private int browseType = 0;//浏览类型(包含时间前、后
-     private BaseADManager adManager;
     private boolean firstFlag = true;
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
@@ -92,7 +84,6 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
             }
         });
 
-        adManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
 //        if (adManager != null) {
 //            adManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
 //        }
@@ -289,14 +280,4 @@ public class JokeQtFragment extends BaseFragment implements SwipeRefreshLayout.O
         doBrowseType(false);
     }
     private View adView;
-    @Override
-    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
-        if (success) {
-            this.adView = adView;
-            doBrowseType(true);
-        } else {
-            this.adView = null;
-            doBrowseType(true);
-        }
-    }
 }

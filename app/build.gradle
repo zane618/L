@@ -92,17 +92,20 @@ android {
         compile 'com.android.support.constraint:constraint-layout:1.0.2'
         compile project(':common')
         compile project(':libbmob')
-        compile project(':libshare')
+//        compile project(':libshare')
         compile "com.android.support:appcompat-v7:${SUPPORT_VERSION}"
         compile project(path: ':magicindicator')
         compile 'com.facebook.rebound:rebound:0.3.8'
         //弹性动画
         compile project(':libpickerview')
-        compile project(':libads')
+//        compile project(':libads')
         compile project(':photoview')
         //友盟统计
         compile 'com.umeng.analytics:analytics:latest.integration'
         compile 'org.greenrobot:greendao:3.2.2' // add library
+
+        // 微信（主要测试拉起小程序
+        compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     }
 }
 

@@ -13,9 +13,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.zane.ads.ADManagerFactory;
-import com.zane.ads.BaseADManager;
-import com.zane.ads.OnAdsListener;
 import com.zane.apis.Urls;
 import com.zane.bean.JokeDzRandBean;
 import com.zane.customview.DireRecyclerview;
@@ -36,7 +33,7 @@ import java.util.List;
  */
 
 public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener, OnAdsListener, View.OnClickListener, DireRecyclerview.OnDireChanged{
+        BaseQuickAdapter.RequestLoadMoreListener, View.OnClickListener, DireRecyclerview.OnDireChanged{
     private static final String TAG = "JokeDzFragment";
     private static final int BROWSE_RAND_TYPE = 0;//随机
     private static final int BROWSE_TEXT_TYPE = 1;//最新
@@ -50,8 +47,6 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
     private String time;//时间戳
     private String sort;
     private int browseType = 0;//浏览类型(包含时间前、后
-    private BaseADManager iflyAdManager;
-    private BaseADManager gdtAdManager;
     private ImageView ivBackTop;
     private int sfbHeitht;
 
@@ -101,8 +96,6 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
                 swLayout.setRefreshing(true);
             }
         });
-        iflyAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
-        gdtAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_GDT);
         doBrowseType(true);
     }
     /**
@@ -135,7 +128,6 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
                                 }
                                 L.e("size" + datas.size());
                                 page ++;
-                                loadAd();
                             } else {
                                 adapter.loadMoreFail();
                             }
@@ -219,31 +211,6 @@ public class JokeDzFragment extends BaseFragment implements SwipeRefreshLayout.O
     public void onLoadMoreRequested() {
         swLayout.setEnabled(false);//加载更多，就不能下拉刷新
         doBrowseType(false);
-    }
-    private void loadAd() {
-        if (page / 2 != 0) {
-            int p = page % 3;
-            if (p == 0 && iflyAdManager != null) {
-                iflyAdManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
-            }
-            if (p == 1 || p == 2 && gdtAdManager != null) {
-                gdtAdManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
-            }
-        }
-    }
-    @Override
-    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
-        if (success) {
-            int size = datas.size();
-            if (size < 10) {
-                return;
-            }
-            JokeDzBean.MData adData = new JokeDzBean.MData(null, null, 1, adView);
-            int insetPosition = /*new Random().nextInt(6)*/ 1;
-            datas.add(size - insetPosition, adData);
-            adapter.notifyItemInserted(size- insetPosition);
-            adapter.notifyItemRangeChanged(size - insetPosition, size - 1);
-        }
     }
 
     @Override

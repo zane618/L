@@ -17,9 +17,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.zane.ads.ADManagerFactory;
-import com.zane.ads.BaseADManager;
-import com.zane.ads.OnAdsListener;
 import com.zane.apis.Urls;
 import com.zane.customview.DireScrollView;
 import com.zane.customview.meiwen.CollectListAdapter;
@@ -40,14 +37,13 @@ import org.greenrobot.greendao.database.Database;
 import java.util.List;
 import java.util.Random;
 
-import static com.zane.ads.BaseADManager.ID_INTERT;
 
 /**
  * Created by shizhang on 2017/8/20.
  */
 
 public class MeiwenFragment extends BaseFragment implements View.OnClickListener
-, OnAdsListener, DireScrollView.OnSrcollDireChanged, CollectListDialog.OnItemChoose{
+, DireScrollView.OnSrcollDireChanged, CollectListDialog.OnItemChoose{
     public static final int COLLECT = 1;//收藏
     public static final int COLLECT_LIST = 2;//收藏列表
     public static final int RANDOM = 3;//随机一文
@@ -61,8 +57,6 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
     private View vRandom;
     private int vRandomHeight;
     private DireScrollView scroll_view;
-    private BaseADManager iflyAdManager;
-    private BaseADManager gdtAdManager;
     private FrameLayout flAdLayout;
     public static MeiwEntityDao meiwenDao;
     private CollectListDialog collectListDialog;
@@ -89,10 +83,7 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
         tvTitle = (TextView) view.findViewById(R.id.tv_title);
         tvAuthor = (TextView) view.findViewById(R.id.tv_author);
         tvWc = (TextView) view.findViewById(R.id.tv_wc);
-        iflyAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
-        gdtAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_GDT);
         getToday(Urls.MW_TODAY, null);
-        loadAd(false);
         initMeiwenDb();
     }
     private void initMeiwenDb() {
@@ -126,18 +117,6 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
                 });
     }
 
-    private void loadAd(boolean isInsertAd) {
-        int r = new Random().nextInt(3);
-        if (r == 1 || r == 2 && gdtAdManager != null) {
-            gdtAdManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
-        }
-        if (r == 0 && iflyAdManager != null) {
-            iflyAdManager.loadNativeAd(mContext, BaseADManager.ID_DZ_NATIVE, this);
-        }
-        if (isInsertAd && gdtAdManager != null) {
-            gdtAdManager.loadInterstitialAd(getActivity(), ID_INTERT, this);
-        }
-    }
     private void setValues() {
         tvTitle.setText(bean.data.title);
         tvAuthor.setText("作者:" + bean.data.author);
@@ -221,7 +200,6 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
 //                ToastUtils.showToast(mContext, "随机一文");
                 getToday(Urls.MW_RANDOM, null);
                 page++;
-                loadAd(page % 2 == 0);
                 break;
         }
     }
@@ -236,17 +214,6 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
         showFloatBtn(vRandom, vRandomHeight);
     }
 
-
-    @Override
-    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
-        if (!success) {
-            return;
-        }
-        if (flAdLayout.getChildCount() != 0) {
-            flAdLayout.removeAllViews();
-        }
-        flAdLayout.addView(adView);
-    }
 
     @Override
     public void onItem(String date) {

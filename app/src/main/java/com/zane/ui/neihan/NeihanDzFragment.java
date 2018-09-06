@@ -6,15 +6,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.zane.ads.ADManagerFactory;
-import com.zane.ads.BaseADManager;
-import com.zane.ads.OnAdsListener;
 import com.zane.apis.Urls;
 import com.zane.customview.DireRecyclerview;
 import com.zane.l.R;
@@ -33,13 +29,11 @@ import java.util.List;
  */
 
 public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener, OnAdsListener, DireRecyclerview.OnDireChanged ,View.OnClickListener{
+        BaseQuickAdapter.RequestLoadMoreListener, DireRecyclerview.OnDireChanged ,View.OnClickListener{
     private SwipeRefreshLayout swLayout;
     private DireRecyclerview recyclerView;
     private NeihanDzAdapter adapter;
     private List<NeihandzBean.MDataItem> datas = new ArrayList<>();
-    private BaseADManager iflyAdManager;
-    private BaseADManager gdtAdManager;
     private String min_time = "1502008860"; //上次更新的时间
     private int page;
     private View ivBackTop;
@@ -88,8 +82,6 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
                 swLayout.setRefreshing(true);
             }
         });
-        iflyAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_IFLY);
-        gdtAdManager = ADManagerFactory.getADManager(mContext, BaseADManager.AD_PLATFORM_GDT);
         getDataRand(true);
     }
     /**
@@ -155,28 +147,6 @@ public class NeihanDzFragment extends BaseFragment implements SwipeRefreshLayout
     }
     private void loadAd() {
         int p = page % 3;
-        if (p == 0 && iflyAdManager != null) {
-            iflyAdManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
-        }
-        if (p == 1 || p == 2 && gdtAdManager != null) {
-            gdtAdManager.loadNativeAd(mContext, BaseADManager.ID_QT_NATIVE, this);
-        }
-    }
-    @Override
-    public void onAdsLoaded(boolean success, Object AdDataO, Object adO, int platform, View adView) {
-        if (success) {
-            int size = datas.size();
-            if (size < 10) {
-                return;
-            }
-            NeihandzBean.MDataItem item = new NeihandzBean.MDataItem();
-            item.adView = adView;
-            item.layoutType = 1;
-            int insetPosition = /*new Random().nextInt(6)*/ 1;
-            datas.add(size - insetPosition, item);
-            adapter.notifyItemInserted(size - insetPosition);
-            adapter.notifyItemRangeChanged(size - insetPosition, size - 1);
-        }
     }
 
     @Override
