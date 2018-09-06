@@ -37,9 +37,9 @@ import cn.bmob.v3.update.BmobUpdateAgent;
  */
 
 public class HomeFragmentActivity extends BaseFragmentActivity implements ViewPager.OnPageChangeListener {
-    private static final String[] CHANNELS = new String[]{"笑哈", "每文", "星座"};
-    private static final int[] IMGS_SEL = new int[]{R.drawable.bottom_1_sel, R.drawable.bottom_3_sel, R.drawable.bottom_2_sel};
-    private static final int[] IMGS_NOL = new int[]{R.drawable.bottom_1_nol, R.drawable.bottom_3_nol, R.drawable.bottom_2_nol};
+    private static final String[] CHANNELS = new String[]{"每文", "笑哈", "星座"};
+    private static final int[] IMGS_SEL = new int[]{R.drawable.bottom_3_sel, R.drawable.bottom_1_sel, R.drawable.bottom_2_sel};
+    private static final int[] IMGS_NOL = new int[]{R.drawable.bottom_3_nol, R.drawable.bottom_1_nol, R.drawable.bottom_2_nol};
     private static final String TAG = "HomeFragmentActivity";
     private ViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
