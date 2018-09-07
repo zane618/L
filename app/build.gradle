@@ -41,7 +41,7 @@ android {
 //        ali {}
 //        wandoujia {}
 //        baidu {}
-//        _360 {}
+////        _360 {}
 //        _91 {}
 //        anzhuo {}
 //        uc {}
@@ -89,7 +89,6 @@ android {
 
     dependencies {
         compile fileTree(include: ['*.jar'], dir: 'libs')
-        compile 'com.android.support.constraint:constraint-layout:1.0.2'
         compile project(':common')
         compile project(':libbmob')
 //        compile project(':libshare')

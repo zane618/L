@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.zane.apis.Urls;
 import com.zane.customview.DireScrollView;
 import com.zane.customview.meiwen.CollectListAdapter;
 import com.zane.customview.meiwen.CollectListDialog;
+import com.zane.customview.meiwen.NoticeDialog;
 import com.zane.l.R;
 import com.zane.ui.MyApplication;
 import com.zane.ui.base.BaseFragment;
@@ -61,6 +63,7 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
     public static MeiwEntityDao meiwenDao;
     private CollectListDialog collectListDialog;
     private int page = 1;
+    private NoticeDialog noticeDialog;
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
@@ -83,6 +86,18 @@ public class MeiwenFragment extends BaseFragment implements View.OnClickListener
         tvTitle = (TextView) view.findViewById(R.id.tv_title);
         tvAuthor = (TextView) view.findViewById(R.id.tv_author);
         tvWc = (TextView) view.findViewById(R.id.tv_wc);
+        //notice
+        view.findViewById(R.id.iv_notice).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (noticeDialog == null) {
+                    noticeDialog = new NoticeDialog(mContext);
+                }
+                if (!noticeDialog.isShowing()) {
+                    noticeDialog.show();
+                }
+            }
+        });
         getToday(Urls.MW_TODAY, null);
         initMeiwenDb();
     }

@@ -8,4 +8,7 @@
     <string name="description">description</string>
     <string name="label">label</string>
     <string name="net_error">网络不给力</string>
+    <string name="notice">没有繁复的登录注册，没有复杂的算法，不猜你喜欢。 我们相信阅读和人之间微妙的关系。
+每天花10分钟阅读一篇文章，一个月可以有大约50000字的阅读量，一年有近60万字的阅读量，专注、执着，每天阅读。
+做最简单纯粹的中文阅读网站。</string>
 </resources>
